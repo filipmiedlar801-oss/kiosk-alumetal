@@ -1,0 +1,116 @@
+{
+  "common": {
+    "back": "Wstecz",
+    "next": "Dalej",
+    "confirm": "Potwierdź",
+    "cancel": "Anuluj",
+    "search": "Szukaj",
+    "add": "Dodaj",
+    "remove": "Usuń",
+    "save": "Zapisz",
+    "edit": "Edytuj",
+    "close": "Zamknij",
+    "loading": "Ładowanie...",
+    "error": "Błąd",
+    "success": "Sukces"
+  },
+  "language": {
+    "title": "Wybierz język / Select language",
+    "polish": "Polski",
+    "english": "English",
+    "german": "Deutsch",
+    "ukrainian": "Українська"
+  },
+  "notificationList": {
+    "title": "Lista awizacji",
+    "addNotification": "Dodaj awizację",
+    "allAdded": "Dodałem wszystkie awizacje [Dalej]",
+    "empty": "Nie dodano jeszcze żadnej awizacji",
+    "emptyDescription": "Kliknij przycisk poniżej, aby dodać pierwszą awizację",
+    "minOneRequired": "Musisz dodać co najmniej jedną awizację, aby kontynuować",
+    "removeConfirm": "Czy na pewno chcesz usunąć tę awizację?",
+    "removeDialog": {
+      "title": "Usuń awizację",
+      "description": "Czy na pewno chcesz usunąć tę awizację z listy?"
+    }
+  },
+  "search": {
+    "title": "Wyszukaj awizację",
+    "methods": {
+      "pin": "PIN",
+      "orderNumber": "Numer zamówienia",
+      "shipmentId": "ID wysyłki",
+      "qrCode": "Kod QR"
+    },
+    "placeholders": {
+      "pin": "Wprowadź PIN",
+      "orderNumber": "Wprowadź numer zamówienia",
+      "shipmentId": "Wprowadź ID wysyłki"
+    },
+    "notFound": "Nie znaleziono awizacji",
+    "noResults": "Nie znaleziono awizacji dla podanych danych",
+    "error": "Błąd podczas wyszukiwania. Spróbuj ponownie.",
+    "searchError": "Błąd podczas wyszukiwania. Spróbuj ponownie.",
+    "scanQR": "Zeskanuj kod QR",
+    "resultsFound": "Znaleziono wyniki"
+  },
+  "notificationDetails": {
+    "title": "Szczegóły awizacji",
+    "driverInfo": "Informacje o kierowcy",
+    "vehicleInfo": "Informacje o pojeździe",
+    "cargoInfo": "Informacje o ładunku",
+    "firstName": "Imię",
+    "lastName": "Nazwisko",
+    "phone": "Telefon",
+    "documents": "Dokumenty",
+    "registration": "Numer rejestracyjny",
+    "trailer": "Naczepa",
+    "personalIdNo": "PESEL",
+    "vehicleType": "Typ pojazdu",
+    "positions": "Pozycje ładunku",
+    "sentNumber": "Numer SENT",
+    "bdoCode": "Kod BDO",
+    "wasteCode": "Kod odpadu",
+    "weight": "Waga",
+    "confirmDataAccuracy": "Potwierdzam zgodność danych osobowych",
+    "validationErrors": "Wykryto niezgodności w danych",
+    "dataMustBeAccurate": "Wszystkie dane muszą być zgodne z systemem SOOT"
+  },
+  "summary": {
+    "title": "Podsumowanie rejestracji",
+    "success": "Rejestracja zakończona pomyślnie!",
+    "driverData": "Dane kierowcy",
+    "registeredNotifications": "Zarejestrowane awizacje",
+    "nextSteps": "Następne kroki",
+    "waitForSMS": "Oczekuj na wiadomość SMS z potwierdzeniem",
+    "goToScale": "Udaj się do wagi zgodnie z instrukcjami",
+    "finish": "Zakończ",
+    "submitting": "Zapisywanie rejestracji...",
+    "printConfirmation": "Wydrukuj potwierdzenie"
+  },
+  "errors": {
+    "title": "Wykryto niezgodności",
+    "description": "Nie możesz kontynuować z następującymi niezgodnościami:",
+    "actions": {
+      "goBack": "Wróć i popraw",
+      "sendEmail": "Wyślij e-mail do spedycji",
+      "finish": "Zakończ"
+    },
+    "emailSent": "E-mail został wysłany do spedycji",
+    "emailError": "Błąd podczas wysyłania e-maila"
+  },
+  "validation": {
+    "required": "To pole jest wymagane",
+    "invalidFormat": "Nieprawidłowy format",
+    "invalidSENT": "Nieprawidłowy numer SENT",
+    "invalidBDO": "Nieprawidłowy kod BDO",
+    "invalidWasteCode": "Nieprawidłowy kod odpadu",
+    "dataInconsistent": "Dane niezgodne z systemem SOOT"
+  },
+  "notificationTypes": {
+    "foreign": "Dostawa zagraniczna",
+    "domestic": "Dostawa krajowa (BDO)",
+    "shipment": "Wysyłka"
+  }
+}
+

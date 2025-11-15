@@ -1,0 +1,116 @@
+{
+  "common": {
+    "back": "Back",
+    "next": "Next",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "search": "Search",
+    "add": "Add",
+    "remove": "Remove",
+    "save": "Save",
+    "edit": "Edit",
+    "close": "Close",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "language": {
+    "title": "Select language / Wybierz język",
+    "polish": "Polski",
+    "english": "English",
+    "german": "Deutsch",
+    "ukrainian": "Українська"
+  },
+  "notificationList": {
+    "title": "Notification List",
+    "addNotification": "Add Notification",
+    "allAdded": "I've added all notifications [Continue]",
+    "empty": "No notifications added yet",
+    "emptyDescription": "Click the button below to add your first notification",
+    "minOneRequired": "You must add at least one notification to continue",
+    "removeConfirm": "Are you sure you want to remove this notification?",
+    "removeDialog": {
+      "title": "Remove Notification",
+      "description": "Are you sure you want to remove this notification from the list?"
+    }
+  },
+  "search": {
+    "title": "Search Notification",
+    "methods": {
+      "pin": "PIN",
+      "orderNumber": "Order Number",
+      "shipmentId": "Shipment ID",
+      "qrCode": "QR Code"
+    },
+    "placeholders": {
+      "pin": "Enter PIN",
+      "orderNumber": "Enter order number",
+      "shipmentId": "Enter shipment ID"
+    },
+    "notFound": "Notification not found",
+    "noResults": "No notifications found for the given data",
+    "error": "Error while searching. Please try again.",
+    "searchError": "Error while searching. Please try again.",
+    "scanQR": "Scan QR code",
+    "resultsFound": "Results found"
+  },
+  "notificationDetails": {
+    "title": "Notification Details",
+    "driverInfo": "Driver Information",
+    "vehicleInfo": "Vehicle Information",
+    "cargoInfo": "Cargo Information",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "phone": "Phone",
+    "documents": "Documents",
+    "registration": "Registration Number",
+    "trailer": "Trailer",
+    "personalIdNo": "Personal ID Number",
+    "vehicleType": "Vehicle Type",
+    "positions": "Cargo Positions",
+    "sentNumber": "SENT Number",
+    "bdoCode": "BDO Code",
+    "wasteCode": "Waste Code",
+    "weight": "Weight",
+    "confirmDataAccuracy": "I confirm the accuracy of personal data",
+    "validationErrors": "Data inconsistencies detected",
+    "dataMustBeAccurate": "All data must be consistent with SOOT system"
+  },
+  "summary": {
+    "title": "Registration Summary",
+    "success": "Registration completed successfully!",
+    "driverData": "Driver Data",
+    "registeredNotifications": "Registered Notifications",
+    "nextSteps": "Next Steps",
+    "waitForSMS": "Wait for SMS confirmation",
+    "goToScale": "Go to the scale according to instructions",
+    "finish": "Finish",
+    "submitting": "Submitting registration...",
+    "printConfirmation": "Print Confirmation"
+  },
+  "errors": {
+    "title": "Inconsistencies Detected",
+    "description": "You cannot continue with the following inconsistencies:",
+    "actions": {
+      "goBack": "Go Back and Correct",
+      "sendEmail": "Send Email to Logistics",
+      "finish": "Finish"
+    },
+    "emailSent": "Email has been sent to logistics",
+    "emailError": "Error sending email"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidFormat": "Invalid format",
+    "invalidSENT": "Invalid SENT number",
+    "invalidBDO": "Invalid BDO code",
+    "invalidWasteCode": "Invalid waste code",
+    "dataInconsistent": "Data inconsistent with SOOT system"
+  },
+  "notificationTypes": {
+    "foreign": "Foreign Delivery",
+    "domestic": "Domestic Delivery (BDO)",
+    "shipment": "Shipment"
+  }
+}
+
