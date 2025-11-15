@@ -183,11 +183,4 @@ npm run build
 npm run preview
 ```
 
-## 📝 Notes
-
-- The application uses React Query for efficient data fetching and caching
-- Notifications are persisted in localStorage for session continuity
-- API integration includes automatic retry logic and error handling
-- The application is internationalized with Polish and English support
-
 ---
