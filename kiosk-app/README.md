@@ -39,7 +39,6 @@ npm run preview
 
 ## 📱 Features
 
-### ✅ Implemented
 
 1. **Language Selection Screen** (`/language`)
    - Choice between PL/EN
