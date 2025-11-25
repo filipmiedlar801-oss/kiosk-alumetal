@@ -24,6 +24,20 @@
     import { useNavigate } from 'react-router-dom';
     import { useNotifications } from '../../context/NotificationContext';
 
+    const formatDescription = (description: string, t: (key: string) => string): string => {
+        if (description === 'niezgodny_kod_sent') {
+            return t('inconsistencies.descriptions.sentCode');
+        }
+        if (description === 'niezgodny_kod_bdo') {
+            return t('inconsistencies.descriptions.bdoCode');
+        }
+        if (description.startsWith('niezgodny_kod_odpadu_dla_pozycji#')) {
+            const positionName = description.replace('niezgodny_kod_odpadu_dla_pozycji#', '');
+            return t('inconsistencies.descriptions.wasteCodeForPosition').replace('{{position}}', positionName);
+        }
+        return description;
+    };
+
     const InconsistenciesScreen = () => {
         const { t } = useTranslation();
         const navigate = useNavigate();
@@ -143,7 +157,7 @@
                                             <ListItemText
                                                 primary={
                                                     <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                                                        {item.description}
+                                                        {formatDescription(item.description, t)}
                                                     </Typography>
                                                 }
                                                 secondary={

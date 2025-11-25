@@ -26,7 +26,7 @@
     "addNotification": "Dodaj awizację",
     "allAdded": "Dodałem wszystkie awizacje [Dalej]",
     "empty": "Nie dodano jeszcze żadnej awizacji",
-    "emptyDescription": "Kliknij przycisk poniżej, aby dodać pierwszą awizację",
+    "emptyDescription": "Kliknij przycisk powyżej, aby dodać pierwszą awizację",
     "minOneRequired": "Musisz dodać co najmniej jedną awizację, aby kontynuować",
     "removeConfirm": "Czy na pewno chcesz usunąć tę awizację?",
     "removeDialog": {
@@ -123,7 +123,12 @@
     "inconsistencies_few": "niezgodności",
     "sootData": "Dane w systemie SOOT",
     "paperData": "Dane na dokumencie",
-    "finish": "Zakończ"
+    "finish": "Zakończ",
+    "descriptions": {
+      "sentCode": "Niezgodny kod SENT",
+      "bdoCode": "Niezgodny kod BDO",
+      "wasteCodeForPosition": "Niezgodny kod odpadu dla {{position}}"
+    }
   }
 }
 

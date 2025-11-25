@@ -26,7 +26,7 @@
     "addNotification": "Add Notification",
     "allAdded": "I've added all notifications [Continue]",
     "empty": "No notifications added yet",
-    "emptyDescription": "Click the button below to add your first notification",
+    "emptyDescription": "Click the button above to add your first notification",
     "minOneRequired": "You must add at least one notification to continue",
     "removeConfirm": "Are you sure you want to remove this notification?",
     "removeDialog": {
@@ -124,7 +124,12 @@
     "inconsistencies_other": "inconsistencies",
     "sootData": "SOOT system data",
     "paperData": "Document data",
-    "finish": "Finish"
+    "finish": "Finish",
+    "descriptions": {
+      "sentCode": "Incorrect SENT code",
+      "bdoCode": "Incorrect BDO code",
+      "wasteCodeForPosition": "Incorrect waste code for {{position}}"
+    }
   }
 }
 

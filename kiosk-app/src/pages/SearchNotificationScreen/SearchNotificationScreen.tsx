@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -45,7 +44,7 @@ const SearchNotificationScreen = () => {
 
   const { mutate: searchNotification, data, isPending: isLoading, error } = useFindNotification();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (data) {
       if (data.success && data.items && data.items.length > 0) {
         const notificationData = data.items[0];
@@ -102,7 +101,7 @@ const SearchNotificationScreen = () => {
             size="medium"
             autoFocus
             error={!!error || (data && !data.success)}
-            helperText={error?.message || (data && !data.success ? (data.message || t('search.noResults')) : '')}
+            helperText={error?.message || (data && !data.success ? t('search.noResults') : '')}
             sx={{ mb: 3 }}
           />
         );
@@ -117,7 +116,7 @@ const SearchNotificationScreen = () => {
             size="medium"
             autoFocus
             error={!!error || (data && !data.success)}
-            helperText={error?.message || (data && !data.success ? (data.message || t('search.noResults')) : '')}
+            helperText={error?.message || (data && !data.success ? t('search.noResults') : '')}
             sx={{ mb: 3 }}
           />
         );
@@ -132,7 +131,7 @@ const SearchNotificationScreen = () => {
             size="medium"
             autoFocus
             error={!!error || (data && !data.success)}
-            helperText={error?.message || (data && !data.success ? (data.message || t('search.noResults')) : '')}
+            helperText={error?.message || (data && !data.success ? t('search.noResults') : '')}
             sx={{ mb: 3 }}
           />
         );
@@ -260,7 +259,7 @@ const SearchNotificationScreen = () => {
             )}
             {data && !data.success && !error && (
               <Alert severity="error" sx={{ mt: 2 }}>
-                {data.message || t('search.noResults')}
+                {t('search.noResults')}
               </Alert>
             )}
           </Box>
