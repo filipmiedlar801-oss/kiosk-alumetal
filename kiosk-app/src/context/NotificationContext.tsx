@@ -4,7 +4,7 @@ interface NotificationContextType {
   notificationIds: number[];
   addNotification: (id: number) => void;
   removeNotification: (id: number) => void;
-  clearAll: () => void;
+  clearAllNotifications: () => void;
 }
 
 const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
@@ -32,13 +32,13 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     setNotificationIds((prev) => prev.filter((notificationId) => notificationId !== id));
   };
 
-  const clearAll = () => {
+  const clearAllNotifications = () => {
     setNotificationIds([]);
     localStorage.removeItem('alumetal-notifications-ids');
   };
 
   return (
-    <NotificationContext.Provider value={{ notificationIds, addNotification, removeNotification, clearAll }}>
+    <NotificationContext.Provider value={{ notificationIds, addNotification, removeNotification, clearAllNotifications }}>
       {children}
     </NotificationContext.Provider>
   );

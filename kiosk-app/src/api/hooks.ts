@@ -2,10 +2,11 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import {
   findNotification,
   getNotificationById,
+  sendEmail,
   verifyNotification,
-  getInconsistencies,
+  finishVerification,
 } from './endpoints';
-import type { SearchMode } from './types';
+import type { SearchMode, SendEmailRequest, SendEmailRequestItem } from './types';
 
 
 
@@ -52,12 +53,23 @@ export const useVerifyNotification = () => {
 };
 
 /**
- * Hook to get inconsistencies
+ * Hook to send email with inconsistency raport
+ * @param data - SendEmailRequest data to send email
+ * @returns Mutation result with SendEmailResponse
  */
-export const useInconsistencies = (notificationId: number) => {
-  return useQuery({
-    queryKey: ['notification', 'inconsistencies', notificationId],
-    queryFn: () => getInconsistencies(notificationId),
+export const useSendInconsistencyEmail = () => {
+  return useMutation({
+    mutationFn: (data: SendEmailRequest) => sendEmail(data),
+  });
+};
+
+/**
+ * Hook to finish verification process
+ * lacks proper implementation/typing atm
+ */
+export const useFinishVerification = () => {
+  return useMutation({
+    mutationFn: (data: SendEmailRequestItem[]) => finishVerification(data),
   });
 };
 

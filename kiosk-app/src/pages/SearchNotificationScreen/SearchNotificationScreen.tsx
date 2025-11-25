@@ -136,7 +136,6 @@ const SearchNotificationScreen = () => {
             sx={{ mb: 3 }}
           />
         );
-      case 'qr':
         return (
           <>
             <Paper
@@ -197,13 +196,6 @@ const SearchNotificationScreen = () => {
             }}
           >
             <Tab
-              value="pin"
-              label={t('search.methods.pin')}
-              icon={<PinIcon />}
-              iconPosition="start"
-              sx={{ py: 2, fontSize: '1rem' }}
-            />
-            <Tab
               value="order"
               label={t('search.methods.orderNumber')}
               icon={<ReceiptIcon />}
@@ -211,16 +203,17 @@ const SearchNotificationScreen = () => {
               sx={{ py: 2, fontSize: '1rem' }}
             />
             <Tab
-              value="shipment"
-              label={t('search.methods.shipmentId')}
-              icon={<LocalShippingIcon />}
+              value="pin"
+              label={t('search.methods.pin')}
+              icon={<PinIcon />}
               iconPosition="start"
               sx={{ py: 2, fontSize: '1rem' }}
             />
+
             <Tab
-              value="qr"
-              label={t('search.methods.qrCode')}
-              icon={<QrCodeScannerIcon />}
+              value="shipment"
+              label={t('search.methods.shipmentId')}
+              icon={<LocalShippingIcon />}
               iconPosition="start"
               sx={{ py: 2, fontSize: '1rem' }}
             />

@@ -20,12 +20,12 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import Layout from '../../components/Layout/Layout';
 import { useNotifications } from '../../context/NotificationContext';
-import { useNotificationsById } from '../../api/hooks';
+import { useNotificationsById, useFinishVerification } from '../../api/hooks';
 
 const SummaryScreen = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { notificationIds, clearAll } = useNotifications();
+  const { notificationIds, clearAllNotifications } = useNotifications();
   const [submitting, setSubmitting] = useState(false);
 
   const [driverData, setDriverData] = useState<any>(() => {
@@ -50,16 +50,25 @@ const SummaryScreen = () => {
   });
 
   const { data, isLoading } = useNotificationsById(notificationIds);
-
+  const { mutateAsync: finishVerificationAsync } = useFinishVerification();
 
   const handleFinish = async () => {
     setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
-      clearAll();
+    try {
+      // Mock payload - endpoint not finished yet
+      const mockPayload = [{ id: 0, description: 'string', sootData: 'string', paperData: 'string' }];
+      await finishVerificationAsync(mockPayload);
+      clearAllNotifications();
       localStorage.removeItem('alumetal-driver-data');
       navigate('/language');
-    }, 2000);
+    } catch (error) {
+      console.error('Error finishing verification:', error);
+      clearAllNotifications();
+      localStorage.removeItem('alumetal-driver-data');
+      navigate('/language');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
 
@@ -95,16 +104,6 @@ const SummaryScreen = () => {
                       {driverData.items[0].driverName?.split(' ')[1] || '-'}
                     </Typography>
                   </Box>
-                  {driverData.items[0].personalIdNo && (
-                    <Box>
-                      <Typography variant="caption" color="text.secondary">
-                        {t('notificationDetails.personalIdNo')}
-                      </Typography>
-                      <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                        {driverData.items[0].personalIdNo}
-                      </Typography>
-                    </Box>
-                  )}
                 </Box>
                 <Box sx={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
                   <Box>
@@ -185,11 +184,6 @@ const SummaryScreen = () => {
             </Typography>
             <Divider sx={{ mb: 2 }} />
             <Stack spacing={2}>
-              <Alert severity="info">
-                <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                  {t('summary.waitForSMS')}
-                </Typography>
-              </Alert>
               <Alert severity="info">
                 <Typography variant="body1" sx={{ fontWeight: 500 }}>
                   {t('summary.goToScale')}

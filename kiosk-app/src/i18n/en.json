@@ -76,6 +76,7 @@
     "validationErrors": "Data inconsistencies detected",
     "dataMustBeAccurate": "All data must be consistent with SOOT system"
   },
+  
   "summary": {
     "title": "Registration Summary",
     "success": "Registration completed successfully!",
@@ -111,6 +112,19 @@
     "foreign": "Foreign Delivery",
     "domestic": "Domestic Delivery (BDO)",
     "shipment": "Shipment"
+  },
+  "inconsistencies": {
+    "title": "Inconsistencies",
+    "noInconsistencies": "No inconsistencies to display.",
+    "detected": "Inconsistencies detected",
+    "foundCount": "Found {{count}} inconsistency in {{notifCount}} notification",
+    "foundCount_other": "Found {{count}} inconsistencies in {{notifCount}} notifications",
+    "notification": "Notification",
+    "inconsistency": "inconsistency",
+    "inconsistencies_other": "inconsistencies",
+    "sootData": "SOOT system data",
+    "paperData": "Document data",
+    "finish": "Finish"
   }
 }
 

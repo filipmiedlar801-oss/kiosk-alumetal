@@ -3,8 +3,12 @@ import type {
   ApiResponse,
   NotificationDetails,
   NotificationSearchItem,
-  Inconsistency,
   SearchMode,
+  VerifyRequest,
+  VerifyResponseItem,
+  SendEmailRequest,
+  SendEmailRequestItem,
+  SendEmailResponse,
 } from './types';
 
 /**
@@ -17,7 +21,8 @@ export const findNotification = async (
   mode: SearchMode,
   code: string
 ): Promise<ApiResponse<NotificationDetails>> => {
-  const response = await apiClient.get(`/km/nfind/${mode}/${code}`);
+  const encodedCode = encodeURIComponent(code);
+  const response = await apiClient.get(`/km/nfind/${mode}/${encodedCode}`);
   return response.data;
 };
 
@@ -34,21 +39,32 @@ export const getNotificationById = async (
 };
 
 /**
- * Verify notification data TODO
+ * Verify notification
+ * @param data - VerifyRequest data to verify
+ * @returns VerifyResponseItem[]
  */
-export const verifyNotification = async (data: any): Promise<ApiResponse<null>> => {
+export const verifyNotification = async (data: VerifyRequest): Promise<ApiResponse<VerifyResponseItem>> => {
   const response = await apiClient.post('/km/verify', data);
   return response.data;
 };
 
 /**
- * Get list of inconsistencies for a notification
- * @param notificationId - Notification ID
+ * Send email with inconsistency raport
+ * @param data - SendEmailRequest data to send email
+ * @returns SendEmailResponse
  */
-export const getInconsistencies = async (
-  notificationId: number
-): Promise<ApiResponse<Inconsistency>> => {
-  const response = await apiClient.get(`/km/inconsistencies/${notificationId}`);
+export const sendEmail = async (data: SendEmailRequest): Promise<ApiResponse<SendEmailResponse>> => {
+  const response = await apiClient.post('/km/incemail', data);
+  return response.data;
+};
+
+/**
+ * Finish verification process
+ * @param data - SendEmailRequestItem[] data to finish verification - temporary typing
+ * @returns SendEmailResponse - temporary typing
+ */
+export const finishVerification = async (data: SendEmailRequestItem[]): Promise<SendEmailResponse> => {
+  const response = await apiClient.post('/km/verfin', data);
   return response.data;
 };
 

@@ -14,6 +14,7 @@ import SearchNotificationScreen from './pages/SearchNotificationScreen/SearchNot
 import NotificationDetailsScreen from './pages/NotificationDetailsScreen/NotificationDetailsScreen';
 import SummaryScreen from './pages/SummaryScreen/SummaryScreen';
 import ErrorScreen from './pages/ErrorScreen/ErrorScreen';
+import InconsistenciesScreen from './pages/InconsistenciesScreen/InconsistenciesScreen';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -46,6 +47,7 @@ function App() {
                   <Route path="/notification/:id" element={<NotificationDetailsScreen />} />
                   <Route path="/summary" element={<SummaryScreen />} />
                   <Route path="/error" element={<ErrorScreen />} />
+                  <Route path="/inconsistencies" element={<InconsistenciesScreen />} />
                   <Route path="*" element={<Navigate to="/language" replace />} />
                 </Routes>
               </div>

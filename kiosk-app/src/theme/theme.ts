@@ -22,6 +22,9 @@ export const theme = createTheme({
         },
         error: {
             main: '#d32f2f',
+            light: '#f5e4e4',
+            dark: '#b71c1c',
+            contrastText: '#ffffff',
         },
         warning: {
             main: '#ffa726',
@@ -31,7 +34,7 @@ export const theme = createTheme({
         },
         background: {
             default: '#F8F9FA',
-            paper: '#FFFFFF',
+            paper: '#FFFFFF',         
         },
         text: {
             primary: '#1F2937',

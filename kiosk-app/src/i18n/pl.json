@@ -65,7 +65,6 @@
     "documents": "Dokumenty",
     "registration": "Numer rejestracyjny",
     "trailer": "Naczepa",
-    "personalIdNo": "PESEL",
     "vehicleType": "Typ pojazdu",
     "positions": "Pozycje ładunku",
     "sentNumber": "Numer SENT",
@@ -111,6 +110,20 @@
     "foreign": "Dostawa zagraniczna",
     "domestic": "Dostawa krajowa (BDO)",
     "shipment": "Wysyłka"
+  },
+  "inconsistencies": {
+    "title": "Niezgodności",
+    "noInconsistencies": "Brak niezgodności do wyświetlenia.",
+    "detected": "Wykryto niezgodności",
+    "foundCount": "Znaleziono {{count}} niezgodność w {{notifCount}} awizacji",
+    "foundCount_few": "Znaleziono {{count}} niezgodności w {{notifCount}} awizacjach",
+    "foundCount_many": "Znaleziono {{count}} niezgodności w {{notifCount}} awizacjach",
+    "notification": "Awizacja",
+    "inconsistency": "niezgodność",
+    "inconsistencies_few": "niezgodności",
+    "sootData": "Dane w systemie SOOT",
+    "paperData": "Dane na dokumencie",
+    "finish": "Zakończ"
   }
 }
 

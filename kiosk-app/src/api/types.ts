@@ -24,17 +24,49 @@ export interface NotificationDetails {
   truckPlateNo: string;
   trailerPlateNo: string;
   isForeign: boolean;
-  transportType: string; 
+  transportType: string;
   cargoItems: CargoItem[];
 }
 
-export interface Inconsistency {
 
+export interface VerifyRequest {
+  notificationId: number;
+  sentNo: string;
+  bdoCode: string;
+  items: {
+    cargoItemId: number;
+    wasteCode: string;
+  }[]
+}
+export interface VerifyResponseItem {
+  description: string;
+  sootData: string;
+  paperData: string;
+}
+
+export interface InconsistencyData {
+  notificationId: number;
+  items: VerifyResponseItem[];
+}
+
+export interface SendEmailRequestItem {
+  id: number;
+  description: string;
+  sootData: string;
+  paperData: string;
+}
+
+export type SendEmailRequest = SendEmailRequestItem[];
+
+export interface SendEmailResponse {
+  values: { key: string; value: string }[] | null;
+  success: boolean;
+  message: string | null;
 }
 
 export const SearchMode = {
-  PIN: 1,
-  ORDER_ID: 2,
+  PIN: 2,
+  ORDER_ID: 1,
   QR_CODE: 3,
 } as const;
 

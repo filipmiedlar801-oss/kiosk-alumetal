@@ -24,16 +24,19 @@ import {
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Layout from '../../components/Layout/Layout';
 import { useNotifications } from '../../context/NotificationContext';
-import type { NotificationDetails } from '../../api/types';
+import { useVerifyNotification } from '../../api/hooks';
+import type { NotificationDetails, InconsistencyData } from '../../api/types';
 
 const NotificationDetailsScreen = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { t } = useTranslation();
     const { addNotification } = useNotifications();
+    const { mutateAsync: verifyNotificationAsync, isPending: isVerifying } = useVerifyNotification();
     const [dataConfirmed, setDataConfirmed] = useState(false);
-    const [sentNumber, setSentNumber] = useState(''); // Tylko jeden numer SENT dla całej notyfikacji
-    const [bdoCodes, setBdoCodes] = useState<Record<string, string>>({});
+    const [sentNumber, setSentNumber] = useState('');
+    const [sentError, setSentError] = useState<string>('');
+    const [bdoCode, setBdoCode] = useState(''); 
     const [wasteCodes, setWasteCodes] = useState<Record<string, string>>({});
 
     const locationState = location.state as {
@@ -56,78 +59,98 @@ const NotificationDetailsScreen = () => {
         }
     }, [notificationData?.id]);
 
-    const handleConfirm = () => {
+    const handleSentChange = (value: string) => {
+        const numericValue = value.replace(/\D/g, '').slice(0, 4);
+        setSentNumber(numericValue);
+        if (numericValue.length > 0 && numericValue.length !== 4) {
+            setSentError('Numer SENT musi składać się z 4 cyfr');
+        } else {
+            setSentError('');
+        }
+    };
+
+    const handleConfirm = async () => {
         if (!dataConfirmed || !notificationData) {
             console.error('Cannot confirm: dataConfirmed=', dataConfirmed, 'notificationData=', notificationData);
             return;
         }
 
-        addNotification(notificationData.id);
+        const isShipment = notificationData.transportType === 'L';
+        const sentNo = isShipment ? '' : (notificationData.isForeign ? sentNumber : '');
+        const bdoCodeValue = isShipment ? '' : (notificationData.isForeign ? '' : bdoCode);
 
-        navigate('/notifications', { replace: true });
+        if (!isShipment && notificationData.isForeign && sentNumber.length !== 4) {
+            setSentError('Numer SENT musi składać się z 4 cyfr');
+            return;
+        }
+
+        const verifyBody = {
+            notificationId: notificationData.id,
+            sentNo: sentNo || '',
+            bdoCode: bdoCodeValue || '',
+            items: notificationData.cargoItems.map(item => ({
+                cargoItemId: item.id,
+                wasteCode: wasteCodes[item.id.toString()] || item.declaredWasteCode || ''
+            }))
+        };
+
+
+        try {
+            const response = await verifyNotificationAsync(verifyBody);
+            if (response.items && response.items.length > 0) {
+                const savedInconsistencies = localStorage.getItem('alumetal-inconsistencies');
+                let inconsistenciesArray: InconsistencyData[] = [];
+                
+                if (savedInconsistencies) {
+                    try {
+                        const parsed = JSON.parse(savedInconsistencies);
+                        if (Array.isArray(parsed)) {
+                            inconsistenciesArray = parsed;
+                        }
+                    } catch (e) {
+                        console.error('Error parsing existing inconsistencies:', e);
+                    }
+                }
+                
+                const existingIndex = inconsistenciesArray.findIndex(
+                    item => item.notificationId === notificationData.id
+                );
+                
+                const newInconsistencyData: InconsistencyData = {
+                    notificationId: notificationData.id,
+                    items: response.items
+                };
+                
+                if (existingIndex >= 0) {
+                    inconsistenciesArray[existingIndex] = newInconsistencyData;
+                } else {
+                    inconsistenciesArray.push(newInconsistencyData);
+                }
+                
+                localStorage.setItem('alumetal-inconsistencies', JSON.stringify(inconsistenciesArray));
+            }
+
+            addNotification(notificationData.id);
+            navigate('/notifications', { replace: true });
+        } catch (error) {
+            console.error('Verification failed:', error);
+        }
     };
 
     const renderCargoFields = () => {
         if (!notificationData) return null;
+        const isShipment = notificationData.transportType === 'L';
+        const showSentOrBdo = !isShipment;
 
-        if (notificationData.isForeign) {
-            return (
-                <>
-                    <TableContainer>
-                        <Table size="small">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell sx={{ fontWeight: 600 }}>Nazwa</TableCell>
-                                    <TableCell sx={{ fontWeight: 600 }}>Waga (kg)</TableCell>
-                                    <TableCell sx={{ fontWeight: 600 }}>{t('notificationDetails.wasteCode')}</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {notificationData.cargoItems.map((item) => (
-                                    <TableRow key={item.id}>
-                                        <TableCell>{item.cargoName}</TableCell>
-                                        <TableCell>{item.weight}</TableCell>
-                                        <TableCell>
-                                            <TextField
-                                                fullWidth
-                                                value={wasteCodes[item.id.toString()] || ''}
-                                                onChange={(e) =>
-                                                    setWasteCodes({ ...wasteCodes, [item.id.toString()]: e.target.value })
-                                                }
-                                                size="small"
-                                                placeholder="Wprowadź kod odpadu..."
-                                            />
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-
-                    <Box sx={{ mt: 2 }}>
-                        <TextField
-                            fullWidth
-                            label={t('notificationDetails.sentNumber')}
-                            value={sentNumber}
-                            onChange={(e) => setSentNumber(e.target.value)}
-                            size="small"
-                            placeholder="Wprowadź numer SENT..."
-                            sx={{ maxWidth: 400 }}
-                        />
-                    </Box>
-                </>
-            );
-        }
-
-        if (!notificationData.isForeign) {
-            return (
+        return (
+            <>
                 <TableContainer>
                     <Table size="small">
                         <TableHead>
                             <TableRow>
                                 <TableCell sx={{ fontWeight: 600 }}>Nazwa</TableCell>
                                 <TableCell sx={{ fontWeight: 600 }}>Waga (kg)</TableCell>
-                                <TableCell sx={{ fontWeight: 600 }}>{t('notificationDetails.bdoCode')}</TableCell>
+                                <TableCell sx={{ fontWeight: 600 }}>{t('notificationDetails.wasteCode')}</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -138,10 +161,12 @@ const NotificationDetailsScreen = () => {
                                     <TableCell>
                                         <TextField
                                             fullWidth
-                                            value={bdoCodes[item.id.toString()] || ''}
-                                            onChange={(e) => setBdoCodes({ ...bdoCodes, [item.id.toString()]: e.target.value })}
+                                            value={wasteCodes[item.id.toString()] || ''}
+                                            onChange={(e) =>
+                                                setWasteCodes({ ...wasteCodes, [item.id.toString()]: e.target.value })
+                                            }
                                             size="small"
-                                            placeholder="Wprowadź kod BDO..."
+                                            placeholder="Wprowadź kod odpadu..."
                                         />
                                     </TableCell>
                                 </TableRow>
@@ -149,15 +174,40 @@ const NotificationDetailsScreen = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-            );
-        }
 
-        return (
-            <Alert severity="info">
-                <Typography variant="body2">
-                    Wysyłka - nie wymaga dodatkowych pól. Potwierdź zgodność danych poniżej.
-                </Typography>
-            </Alert>
+                {showSentOrBdo && (
+                    <Box sx={{ mt: 2 }}>
+                        {notificationData.isForeign ? (
+                            <TextField
+                                fullWidth
+                                label={t('notificationDetails.sentNumber')}
+                                value={sentNumber}
+                                onChange={(e) => handleSentChange(e.target.value)}
+                                size="small"
+                                placeholder="Wprowadź numer SENT (4 cyfry)..."
+                                error={!!sentError}
+                                helperText={sentError || 'Wprowadź 4-cyfrowy numer SENT'}
+                                inputProps={{
+                                    maxLength: 4,
+                                    inputMode: 'numeric',
+                                    pattern: '[0-9]{4}',
+                                }}
+                                sx={{ maxWidth: 400 }}
+                            />
+                        ) : (
+                            <TextField
+                                fullWidth
+                                label={t('notificationDetails.bdoCode')}
+                                value={bdoCode}
+                                onChange={(e) => setBdoCode(e.target.value)}
+                                size="small"
+                                placeholder="Wprowadź kody BDO..."
+                                sx={{ maxWidth: 400 }}
+                            />
+                        )}
+                    </Box>
+                )}
+            </>
         );
     };
 
@@ -197,7 +247,10 @@ const NotificationDetailsScreen = () => {
                             {notificationData.id}
                         </Typography>
                         <Chip
-                            label={t(`notificationTypes.${notificationData.isForeign ? 'foreign' : 'domestic'}`)}
+                            label={t(`notificationTypes.${notificationData.transportType === 'L'
+                                    ? 'shipment'
+                                    : (notificationData.isForeign ? 'foreign' : 'domestic')
+                                }`)}
                             color="primary"
                             size="medium"
                         />
@@ -264,7 +317,6 @@ const NotificationDetailsScreen = () => {
                         <Divider sx={{ mb: 1.5 }} />
                         {renderCargoFields()}
                     </Paper>
-
                     <Paper sx={{ p: 2, bgcolor: dataConfirmed ? '#ffa726' : 'white' }}>
                         <FormControlLabel
                             control={
@@ -306,7 +358,7 @@ const NotificationDetailsScreen = () => {
                             size="large"
                             startIcon={<CheckCircleIcon />}
                             onClick={handleConfirm}
-                            disabled={!dataConfirmed}
+                            disabled={!dataConfirmed || isVerifying || !!sentError}
                             sx={{
                                 py: 1.5,
                                 fontSize: '1.125rem',

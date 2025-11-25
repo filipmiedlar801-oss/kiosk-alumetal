@@ -21,6 +21,7 @@ import Layout from '../../components/Layout/Layout';
 import NotificationCard from '../../components/NotificationCard/NotificationCard';
 import { useState } from 'react';
 import { useNotificationsById } from '../../api/hooks';
+import type { InconsistencyData } from '../../api/types';
 
 const NotificationListScreen = () => {
   const navigate = useNavigate();
@@ -39,6 +40,22 @@ const NotificationListScreen = () => {
     if (notificationIds.length === 0) {
       return;
     }
+    
+      const savedInconsistencies = localStorage.getItem('alumetal-inconsistencies');
+      if (savedInconsistencies) {
+        try {
+          const inconsistenciesArray: InconsistencyData[] = JSON.parse(savedInconsistencies);
+          const hasInconsistencies = inconsistenciesArray.some(
+            item => item.items && item.items.length > 0
+          );
+          if (hasInconsistencies) {
+            navigate('/inconsistencies');
+            return;
+          }
+        } catch (e) {
+          console.error('Error parsing inconsistencies:', e);
+        }
+      }
     navigate('/summary');
   };
 
