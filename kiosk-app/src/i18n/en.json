@@ -124,6 +124,8 @@
     "inconsistencies_other": "inconsistencies",
     "sootData": "SOOT system data",
     "paperData": "Document data",
+    "sendEmail": "Send Email",
+    "emailSent": "Email sent successfully",
     "finish": "Finish",
     "descriptions": {
       "sentCode": "Incorrect SENT code",

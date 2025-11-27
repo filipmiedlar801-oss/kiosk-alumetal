@@ -20,6 +20,7 @@ import ReceiptIcon from '@mui/icons-material/Receipt';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import Layout from '../../components/Layout/Layout';
 import { useFindNotification } from '../../api/hooks';
+import { NotificationUseCase } from '../../services/notificationUseCase';
 import { SearchMode } from '../../api/types';
 
 type SearchTab = 'pin' | 'order' | 'shipment' | 'qr';
@@ -54,7 +55,9 @@ const SearchNotificationScreen = () => {
           truckPlateNo: notificationData.truckPlateNo,
           trailerPlateNo: notificationData.trailerPlateNo,
         };
-        localStorage.setItem('alumetal-driver-data', JSON.stringify(driverData));
+        NotificationUseCase.saveDriverData(driverData);
+        NotificationUseCase.saveNotificationDetails(notificationData);
+        
         navigate(`/notification/${notificationData.id}`, {
           state: {
             searchValue,

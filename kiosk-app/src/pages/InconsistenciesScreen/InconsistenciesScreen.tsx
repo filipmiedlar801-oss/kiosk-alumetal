@@ -1,4 +1,4 @@
-    import { useState, useEffect } from 'react';
+    import { useState } from 'react';
     import { useTranslation } from 'react-i18next';
     import {
         Container,
@@ -15,14 +15,18 @@
         Divider,
         Chip,
         CircularProgress,
+        Snackbar,
     } from '@mui/material';
     import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
     import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-    import Layout from '../../components/Layout/Layout';
-    import type { InconsistencyData } from '../../api/types';
-    import { useSendInconsistencyEmail } from '../../api/hooks';
-    import { useNavigate } from 'react-router-dom';
-    import { useNotifications } from '../../context/NotificationContext';
+import Layout from '../../components/Layout/Layout';
+import type { InconsistencyData } from '../../api/types';
+import { useSendInconsistencyEmail, useFinishVerification } from '../../api/hooks';
+import { useNavigate } from 'react-router-dom';
+import { useNotifications } from '../../context/NotificationContext';
+import { NotificationUseCase } from '../../services/notificationUseCase';
+import EmailIcon from '@mui/icons-material/Email';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
     const formatDescription = (description: string, t: (key: string) => string): string => {
         if (description === 'niezgodny_kod_sent') {
@@ -41,41 +45,50 @@
     const InconsistenciesScreen = () => {
         const { t } = useTranslation();
         const navigate = useNavigate();
-        const [inconsistencies, setInconsistencies] = useState<InconsistencyData[]>(() => {
-            const savedInconsistencies = localStorage.getItem('alumetal-inconsistencies');
-            if (savedInconsistencies) {
-                try {
-                    const inconsistenciesArray: InconsistencyData[] = JSON.parse(savedInconsistencies);
-                    return inconsistenciesArray.filter(item => item.items && item.items.length > 0);
-                } catch (e) {
-                    console.error('Error parsing inconsistencies from localStorage:', e);
-                }
-            }
-            return [];
+        const [inconsistencies] = useState<InconsistencyData[]>(() => {
+            return NotificationUseCase.getInconsistencies().filter(item => item.items && item.items.length > 0);
         });
-        const { mutateAsync: sendInconsistencyEmailAsync, isPending: isSendingEmail } = useSendInconsistencyEmail();
-        const { clearAllNotifications } = useNotifications();
+const { mutateAsync: sendInconsistencyEmailAsync, isPending: isSendingEmail } = useSendInconsistencyEmail();
+    const { mutateAsync: finishVerificationAsync, isPending: isFinishing } = useFinishVerification();
+    const { clearAllNotifications } = useNotifications();
+    const [emailSentSnackbar, setEmailSentSnackbar] = useState(false);
 
-        const handleFinish = () => {
-            const payload = inconsistencies.flatMap((inc) =>
-                inc.items.map((item) => ({
-                    id: inc.notificationId,
-                    description: item.description,
-                    sootData: item.sootData,
-                    paperData: item.paperData,
-                }))
-            );
-            sendInconsistencyEmailAsync(payload).then((response) => {
-                if (response.success) {
-                    localStorage.removeItem('alumetal-inconsistencies');
-                    localStorage.removeItem('alumetal-driver-data');
-                    clearAllNotifications();
-                    navigate('/language');
-                }
-            }).catch((error) => {
-                console.error('Error sending email:', error);
-            });
-        };
+    const handleSendEmail = () => {
+        const payload = inconsistencies.flatMap((inc) =>
+            inc.items.map((item) => ({
+                id: inc.notificationId,
+                description: item.description,
+                sootData: item.sootData,
+                paperData: item.paperData,
+            }))
+        );
+        sendInconsistencyEmailAsync(payload).then((response) => {
+            if (response.success) {
+                setEmailSentSnackbar(true);
+            }
+        }).catch((error) => {
+            console.error('Error sending email:', error);
+        });
+    };
+
+    const handleFinish = async () => {
+        try {
+            const mockPayload = [{ id: 0, description: 'string', sootData: 'string', paperData: 'string' }];
+            await finishVerificationAsync(mockPayload);
+            NotificationUseCase.clearAll();
+            clearAllNotifications();
+            navigate('/language');
+        } catch (error) {
+            console.error('Error finishing verification:', error);
+            NotificationUseCase.clearAll();
+            clearAllNotifications();
+            navigate('/language');
+        }
+    };
+
+    const handleBackToList = () => {
+        navigate('/notifications');
+    };
 
         const totalInconsistencies = inconsistencies.reduce(
             (sum, item) => sum + (item.items?.length || 0),
@@ -179,25 +192,65 @@
 
 
                         <Stack spacing={2}>
-                            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
+                            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'space-between' }}>
                                 <Button
-                                    variant="contained"
+                                    variant="outlined"
                                     size="large"
-                                    startIcon={isSendingEmail ? <CircularProgress size={24} /> : <CheckCircleIcon />}
-                                    disabled={isSendingEmail}
-                                    onClick={handleFinish}
+                                    startIcon={<ArrowBackIcon />}
+                                    onClick={handleBackToList}
                                     sx={{
                                         py: 2,
                                         fontSize: '1.125rem',
                                         fontWeight: 600,
                                     }}
                                 >
-                                    {t('inconsistencies.finish')}
+                                    {t('common.back')}
                                 </Button>
+                                <Box sx={{ display: 'flex', gap: 2 }}>
+                                    <Button
+                                        variant="outlined"
+                                        size="large"
+                                        color="warning"
+                                        startIcon={isSendingEmail ? <CircularProgress size={24} /> : <EmailIcon />}
+                                        disabled={isSendingEmail}
+                                        onClick={handleSendEmail}
+                                        sx={{
+                                            py: 2,
+                                            fontSize: '1.125rem',
+                                            fontWeight: 600,
+                                        }}
+                                    >
+                                        {t('inconsistencies.sendEmail')}
+                                    </Button>
+                                    <Button
+                                        variant="contained"
+                                        size="large"
+                                        startIcon={isFinishing ? <CircularProgress size={24} /> : <CheckCircleIcon />}
+                                        disabled={isFinishing}
+                                        onClick={handleFinish}
+                                        sx={{
+                                            py: 2,
+                                            fontSize: '1.125rem',
+                                            fontWeight: 600,
+                                        }}
+                                    >
+                                        {t('inconsistencies.finish')}
+                                    </Button>
+                                </Box>
                             </Box>
                         </Stack>
                     </Stack>
                 </Container>
+                <Snackbar
+                    open={emailSentSnackbar}
+                    autoHideDuration={4000}
+                    onClose={() => setEmailSentSnackbar(false)}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                >
+                    <Alert severity="success" onClose={() => setEmailSentSnackbar(false)}>
+                        {t('inconsistencies.emailSent')}
+                    </Alert>
+                </Snackbar>
             </Layout>
         );
     };

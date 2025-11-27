@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
     Box,
@@ -25,11 +25,13 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Layout from '../../components/Layout/Layout';
 import { useNotifications } from '../../context/NotificationContext';
 import { useVerifyNotification } from '../../api/hooks';
-import type { NotificationDetails, InconsistencyData } from '../../api/types';
+import { NotificationUseCase } from '../../services/notificationUseCase';
+import type { NotificationDetails } from '../../api/types';
 
 const NotificationDetailsScreen = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const params = useParams<{ id: string }>();
     const { t } = useTranslation();
     const { addNotification } = useNotifications();
     const { mutateAsync: verifyNotificationAsync, isPending: isVerifying } = useVerifyNotification();
@@ -38,26 +40,38 @@ const NotificationDetailsScreen = () => {
     const [sentError, setSentError] = useState<string>('');
     const [bdoCode, setBdoCode] = useState(''); 
     const [wasteCodes, setWasteCodes] = useState<Record<string, string>>({});
+    const [notificationData, setNotificationData] = useState<NotificationDetails | null>(null);
 
     const locationState = location.state as {
         searchValue?: string;
         searchType?: string;
         notificationData?: NotificationDetails;
+        isEdit?: boolean;
     } | null;
 
-    const notificationData = locationState?.notificationData;
+    useEffect(() => {
+        if (locationState?.notificationData) {
+            setNotificationData(locationState.notificationData);
+        } else if (params.id) {
+            const notificationId = parseInt(params.id, 10);
+            const savedData = NotificationUseCase.getNotificationDetails(notificationId);
+            if (savedData) {
+                setNotificationData(savedData);
+            }
+        }
+    }, [locationState, params.id]);
 
     useEffect(() => {
         if (notificationData?.cargoItems) {
             const initialWasteCodes: Record<string, string> = {};
             notificationData.cargoItems.forEach(item => {
                 if (item.declaredWasteCode) {
-                    initialWasteCodes[item.id.toString()] = item.declaredWasteCode;
+                    initialWasteCodes[item.id.toString()] = "";
                 }
             });
             setWasteCodes(initialWasteCodes);
         }
-    }, [notificationData?.id]);
+    }, [notificationData]);
 
     const handleSentChange = (value: string) => {
         const numericValue = value.replace(/\D/g, '').slice(0, 4);
@@ -97,38 +111,12 @@ const NotificationDetailsScreen = () => {
 
         try {
             const response = await verifyNotificationAsync(verifyBody);
-            if (response.items && response.items.length > 0) {
-                const savedInconsistencies = localStorage.getItem('alumetal-inconsistencies');
-                let inconsistenciesArray: InconsistencyData[] = [];
-                
-                if (savedInconsistencies) {
-                    try {
-                        const parsed = JSON.parse(savedInconsistencies);
-                        if (Array.isArray(parsed)) {
-                            inconsistenciesArray = parsed;
-                        }
-                    } catch (e) {
-                        console.error('Error parsing existing inconsistencies:', e);
-                    }
-                }
-                
-                const existingIndex = inconsistenciesArray.findIndex(
-                    item => item.notificationId === notificationData.id
-                );
-                
-                const newInconsistencyData: InconsistencyData = {
-                    notificationId: notificationData.id,
-                    items: response.items
-                };
-                
-                if (existingIndex >= 0) {
-                    inconsistenciesArray[existingIndex] = newInconsistencyData;
-                } else {
-                    inconsistenciesArray.push(newInconsistencyData);
-                }
-                
-                localStorage.setItem('alumetal-inconsistencies', JSON.stringify(inconsistenciesArray));
-            }
+            
+            NotificationUseCase.saveNotificationDetails(notificationData);
+            
+            NotificationUseCase.processVerificationResponse(notificationData.id, {
+                items: response.items || undefined
+            });
 
             addNotification(notificationData.id);
             navigate('/notifications', { replace: true });

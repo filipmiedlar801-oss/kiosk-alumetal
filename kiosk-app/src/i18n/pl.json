@@ -123,6 +123,8 @@
     "inconsistencies_few": "niezgodności",
     "sootData": "Dane w systemie SOOT",
     "paperData": "Dane na dokumencie",
+    "sendEmail": "Wyślij e-mail",
+    "emailSent": "E-mail został wysłany pomyślnie",
     "finish": "Zakończ",
     "descriptions": {
       "sentCode": "Niezgodny kod SENT",

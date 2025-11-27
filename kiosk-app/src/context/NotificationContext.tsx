@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { NotificationUseCase } from '../services/notificationUseCase';
 
 interface NotificationContextType {
   notificationIds: number[];
@@ -11,30 +12,26 @@ const NotificationContext = createContext<NotificationContextType | undefined>(u
 
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [notificationIds, setNotificationIds] = useState<number[]>(() => {
-    const saved = localStorage.getItem('alumetal-notifications-ids');
-    return saved ? JSON.parse(saved) : [];
+    return NotificationUseCase.getNotificationIds();
   });
 
   useEffect(() => {
-    localStorage.setItem('alumetal-notifications-ids', JSON.stringify(notificationIds));
+    NotificationUseCase.saveNotificationIds(notificationIds);
   }, [notificationIds]);
 
   const addNotification = (id: number) => {
-    setNotificationIds((prev) => {
-      if (prev.includes(id)) {
-        return prev;
-      }
-      return [...prev, id];
-    });
+    NotificationUseCase.addNotificationId(id);
+    setNotificationIds(NotificationUseCase.getNotificationIds());
   };
 
   const removeNotification = (id: number) => {
-    setNotificationIds((prev) => prev.filter((notificationId) => notificationId !== id));
+    NotificationUseCase.removeNotification(id);
+    setNotificationIds(NotificationUseCase.getNotificationIds());
   };
 
   const clearAllNotifications = () => {
+    NotificationUseCase.clearAll();
     setNotificationIds([]);
-    localStorage.removeItem('alumetal-notifications-ids');
   };
 
   return (

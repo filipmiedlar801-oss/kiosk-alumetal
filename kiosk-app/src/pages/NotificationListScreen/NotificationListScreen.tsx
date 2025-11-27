@@ -21,7 +21,7 @@ import Layout from '../../components/Layout/Layout';
 import NotificationCard from '../../components/NotificationCard/NotificationCard';
 import { useState } from 'react';
 import { useNotificationsById } from '../../api/hooks';
-import type { InconsistencyData } from '../../api/types';
+import { NotificationUseCase } from '../../services/notificationUseCase';
 
 const NotificationListScreen = () => {
   const navigate = useNavigate();
@@ -41,21 +41,11 @@ const NotificationListScreen = () => {
       return;
     }
     
-      const savedInconsistencies = localStorage.getItem('alumetal-inconsistencies');
-      if (savedInconsistencies) {
-        try {
-          const inconsistenciesArray: InconsistencyData[] = JSON.parse(savedInconsistencies);
-          const hasInconsistencies = inconsistenciesArray.some(
-            item => item.items && item.items.length > 0
-          );
-          if (hasInconsistencies) {
-            navigate('/inconsistencies');
-            return;
-          }
-        } catch (e) {
-          console.error('Error parsing inconsistencies:', e);
-        }
-      }
+    if (NotificationUseCase.hasInconsistencies()) {
+      navigate('/inconsistencies');
+      return;
+    }
+    
     navigate('/summary');
   };
 
@@ -70,6 +60,21 @@ const NotificationListScreen = () => {
     }
     setRemoveDialogOpen(false);
     setSelectedNotificationId(null);
+  };
+
+  const handleEdit = (id: number) => {
+    const notificationData = NotificationUseCase.getNotificationDetails(id);
+    if (notificationData) {
+      navigate(`/notification/${id}`, {
+        state: {
+          notificationData: notificationData,
+          isEdit: true,
+        }
+      });
+    } else {
+      console.warn(`Notification details not found in localStorage for ID: ${id}`);
+      navigate('/search');
+    }
   };
 
   return (
@@ -159,6 +164,7 @@ const NotificationListScreen = () => {
                   key={notification.id}
                   notification={notification}
                   onRemove={handleRemoveClick}
+                  onEdit={handleEdit}
                 />
               ))}
             </Stack>

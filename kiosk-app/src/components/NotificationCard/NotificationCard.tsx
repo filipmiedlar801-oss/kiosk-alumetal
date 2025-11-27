@@ -5,17 +5,22 @@ import {
   IconButton,
   Box,
   Chip,
+  Tooltip,
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import { useTranslation } from 'react-i18next';
 import type { NotificationSearchItem } from '../../api/types';
 
 interface NotificationCardProps {
   notification: NotificationSearchItem;
   onRemove: (id: number) => void;
+  onEdit: (id: number) => void;
 }
 
-const NotificationCard = ({ notification, onRemove }: NotificationCardProps) => {
+const NotificationCard = ({ notification, onRemove, onEdit }: NotificationCardProps) => {
+  const { t } = useTranslation();
 
   return (
     <Card
@@ -59,19 +64,36 @@ const NotificationCard = ({ notification, onRemove }: NotificationCardProps) => 
             </Typography>
           </Box>
 
-          <IconButton
-            onClick={() => onRemove(notification.id)}
-            color="error"
-            sx={{
-              '&:hover': {
-                bgcolor: 'error.light',
-                color: 'white',
-
-              },
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
+          <Box sx={{ display: 'flex', gap: 0.5 }}>
+            <Tooltip title={t('common.edit')}>
+              <IconButton
+                onClick={() => onEdit(notification.id)}
+                color="primary"
+                sx={{
+                  '&:hover': {
+                    bgcolor: 'primary.light',
+                    color: 'white',
+                  },
+                }}
+              >
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={t('common.remove')}>
+              <IconButton
+                onClick={() => onRemove(notification.id)}
+                color="error"
+                sx={{
+                  '&:hover': {
+                    bgcolor: 'error.light',
+                    color: 'white',
+                  },
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
         </Box>
       </CardContent>
     </Card>

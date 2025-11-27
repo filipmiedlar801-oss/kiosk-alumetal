@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -21,6 +21,7 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import Layout from '../../components/Layout/Layout';
 import { useNotifications } from '../../context/NotificationContext';
 import { useNotificationsById, useFinishVerification } from '../../api/hooks';
+import { NotificationUseCase } from '../../services/notificationUseCase';
 
 const SummaryScreen = () => {
   const navigate = useNavigate();
@@ -28,23 +29,18 @@ const SummaryScreen = () => {
   const { notificationIds, clearAllNotifications } = useNotifications();
   const [submitting, setSubmitting] = useState(false);
 
-  const [driverData, setDriverData] = useState<any>(() => {
-    const savedDriverData = localStorage.getItem('alumetal-driver-data');
+  const [driverData] = useState<any>(() => {
+    const savedDriverData = NotificationUseCase.getDriverData();
     if (savedDriverData) {
-      try {
-        const parsed = JSON.parse(savedDriverData);
-        return {
-          success: true,
-          items: [{
-            driverName: parsed.driverName,
-            personalIdNo: parsed.personalIdNo,
-            truckPlateNo: parsed.truckPlateNo,
-            trailerPlateNo: parsed.trailerPlateNo,
-          }],
-        };
-      } catch (e) {
-        console.error('Error parsing driver data from localStorage:', e);
-      }
+      return {
+        success: true,
+        items: [{
+          driverName: savedDriverData.driverName,
+          personalIdNo: savedDriverData.personalIdNo,
+          truckPlateNo: savedDriverData.truckPlateNo,
+          trailerPlateNo: savedDriverData.trailerPlateNo,
+        }],
+      };
     }
     return null;
   });
@@ -58,13 +54,13 @@ const SummaryScreen = () => {
       // Mock payload - endpoint not finished yet
       const mockPayload = [{ id: 0, description: 'string', sootData: 'string', paperData: 'string' }];
       await finishVerificationAsync(mockPayload);
+      NotificationUseCase.clearAll();
       clearAllNotifications();
-      localStorage.removeItem('alumetal-driver-data');
       navigate('/language');
     } catch (error) {
       console.error('Error finishing verification:', error);
+      NotificationUseCase.clearAll();
       clearAllNotifications();
-      localStorage.removeItem('alumetal-driver-data');
       navigate('/language');
     } finally {
       setSubmitting(false);
