@@ -33,6 +33,7 @@ export interface VerifyRequest {
   notificationId: number;
   sentNo: string;
   bdoCode: string;
+  driverDataConsistent: boolean;
   items: {
     cargoItemId: number;
     wasteCode: string;

@@ -6,6 +6,7 @@ import { I18nextProvider } from 'react-i18next';
 import theme from './theme/theme';
 import i18n from './i18n/config';
 import { NotificationProvider } from './context/NotificationContext';
+import SessionManager from './components/SessionManager/SessionManager';
 
 // Pages
 import LanguageScreen from './pages/LanguageScreen/LanguageScreen';
@@ -38,6 +39,7 @@ function App() {
           <CssBaseline />
           <NotificationProvider>
             <Router>
+              <SessionManager />
               <div style={{ width: '100vw', height: '100vh', overflow: 'hidden' }}>
                 <Routes>
                   <Route path="/" element={<Navigate to="/language" replace />} />

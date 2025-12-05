@@ -15,14 +15,17 @@ import type {
  * Find notification details by PIN, Order ID, or QR code
  * @param mode - 1: PIN, 2: Order ID, 3: QR code
  * @param code - Search value
+ * @param secret - Vehicle registration number (required)
  * @returns NotificationDetails (not a list!)
  */
 export const findNotification = async (
   mode: SearchMode,
-  code: string
+  code: string,
+  secret: string
 ): Promise<ApiResponse<NotificationDetails>> => {
   const encodedCode = encodeURIComponent(code);
-  const response = await apiClient.get(`/km/nfind/${mode}/${encodedCode}`);
+  const encodedSecret = encodeURIComponent(secret);
+  const response = await apiClient.get(`/km/nfind/${mode}/${encodedCode}/${encodedSecret}`);
   return response.data;
 };
 

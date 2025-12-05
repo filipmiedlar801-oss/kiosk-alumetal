@@ -30,6 +30,7 @@ const SearchNotificationScreen = () => {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<SearchTab>('pin');
   const [searchValue, setSearchValue] = useState('');
+  const [registrationNumber, setRegistrationNumber] = useState('');
 
   const getSearchMode = (tab: SearchTab): SearchMode => {
     switch (tab) {
@@ -71,18 +72,21 @@ const SearchNotificationScreen = () => {
 
   const handleSearch = () => {
     const trimmedValue = searchValue.trim();
-    if (!trimmedValue) {
+    const trimmedRegistration = registrationNumber.trim();
+    if (!trimmedValue || !trimmedRegistration) {
       return;
     }
     searchNotification({
       mode: getSearchMode(activeTab),
       code: trimmedValue,
+      secret: trimmedRegistration,
     });
   };
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: SearchTab) => {
     setActiveTab(newValue);
     setSearchValue('');
+    setRegistrationNumber('');
   };
 
   const handleQRScan = () => {
@@ -225,6 +229,19 @@ const SearchNotificationScreen = () => {
             {renderSearchInput()}
 
             {activeTab !== 'qr' && (
+              <TextField
+                fullWidth
+                required
+                label={t('search.placeholders.registrationNumber')}
+                value={registrationNumber}
+                onChange={(e) => setRegistrationNumber(e.target.value)}
+                variant="outlined"
+                size="medium"
+                sx={{ mb: 3 }}
+              />
+            )}
+
+            {activeTab !== 'qr' && (
               <Box sx={{ display: 'flex', gap: 2, justifyContent: 'space-between' }}>
                 <Button
                   variant="outlined"
@@ -243,7 +260,7 @@ const SearchNotificationScreen = () => {
                   size="large"
                   startIcon={isLoading ? <CircularProgress size={20} color="inherit" /> : <SearchIcon />}
                   onClick={handleSearch}
-                  disabled={isLoading || !searchValue.trim()}
+                  disabled={isLoading || !searchValue.trim() || !registrationNumber.trim()}
                   sx={{
                     py: 2,
                     fontSize: '1.125rem',

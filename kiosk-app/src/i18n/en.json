@@ -45,7 +45,8 @@
     "placeholders": {
       "pin": "Enter PIN",
       "orderNumber": "Enter order number",
-      "shipmentId": "Enter shipment ID"
+      "shipmentId": "Enter shipment ID",
+      "registrationNumber": "Enter vehicle registration number"
     },
     "notFound": "Notification not found",
     "noResults": "No notifications found for the given data",
@@ -127,9 +128,14 @@
     "sendEmail": "Send Email",
     "emailSent": "Email sent successfully",
     "finish": "Finish",
+    "dataConsistency": "Personal data and vehicle and trailer registration numbers",
+    "consistent": "Consistent",
+    "inconsistent": "Inconsistent",
+    "selectOption": "Please select one of the options",
     "descriptions": {
       "sentCode": "Incorrect SENT code",
       "bdoCode": "Incorrect BDO code",
+      "driverData": "Incorrect driver data",
       "wasteCodeForPosition": "Incorrect waste code for {{position}}"
     }
   }

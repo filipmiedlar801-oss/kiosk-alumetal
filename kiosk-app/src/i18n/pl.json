@@ -45,7 +45,8 @@
     "placeholders": {
       "pin": "Wprowadź PIN",
       "orderNumber": "Wprowadź numer zamówienia",
-      "shipmentId": "Wprowadź ID wysyłki"
+      "shipmentId": "Wprowadź ID wysyłki",
+      "registrationNumber": "Wprowadź numer rejestracji samochodu"
     },
     "notFound": "Nie znaleziono awizacji",
     "noResults": "Nie znaleziono awizacji dla podanych danych",
@@ -126,9 +127,14 @@
     "sendEmail": "Wyślij e-mail",
     "emailSent": "E-mail został wysłany pomyślnie",
     "finish": "Zakończ",
+    "dataConsistency": "Dane osobowe i numery rejestracyjne samochodu i naczepy",
+    "consistent": "Zgodne",
+    "inconsistent": "Niezgodne",
+    "selectOption": "Proszę wybrać jedną z opcji",
     "descriptions": {
       "sentCode": "Niezgodny kod SENT",
       "bdoCode": "Niezgodny kod BDO",
+      "driverData": "Niezgodne dane kierowcy",
       "wasteCodeForPosition": "Niezgodny kod odpadu dla {{position}}"
     }
   }

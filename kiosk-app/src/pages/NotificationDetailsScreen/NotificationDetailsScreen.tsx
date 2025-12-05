@@ -8,7 +8,6 @@ import {
     Typography,
     TextField,
     Button,
-    Checkbox,
     FormControlLabel,
     Stack,
     Divider,
@@ -20,6 +19,10 @@ import {
     TableContainer,
     TableHead,
     TableRow,
+    Radio,
+    RadioGroup,
+    FormControl,
+    FormLabel,
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import Layout from '../../components/Layout/Layout';
@@ -35,11 +38,14 @@ const NotificationDetailsScreen = () => {
     const { t } = useTranslation();
     const { addNotification } = useNotifications();
     const { mutateAsync: verifyNotificationAsync, isPending: isVerifying } = useVerifyNotification();
-    const [dataConfirmed, setDataConfirmed] = useState(false);
     const [sentNumber, setSentNumber] = useState('');
     const [sentError, setSentError] = useState<string>('');
     const [bdoCode, setBdoCode] = useState(''); 
+    const [bdoError, setBdoError] = useState<string>('');
     const [wasteCodes, setWasteCodes] = useState<Record<string, string>>({});
+    const [wasteCodesError, setWasteCodesError] = useState<string>('');
+    const [dataConsistency, setDataConsistency] = useState<'consistent' | 'inconsistent' | ''>('');
+    const [dataConsistencyError, setDataConsistencyError] = useState<string>('');
     const [notificationData, setNotificationData] = useState<NotificationDetails | null>(null);
 
     const locationState = location.state as {
@@ -83,25 +89,79 @@ const NotificationDetailsScreen = () => {
         }
     };
 
+    const validateForm = (): boolean => {
+        let isValid = true;
+
+        if (!dataConsistency) {
+            setDataConsistencyError(t('inconsistencies.selectOption'));
+            isValid = false;
+        } else {
+            setDataConsistencyError('');
+        }
+
+        if (!notificationData) {
+            return false;
+        }
+
+        const isShipment = notificationData.transportType === 'L';
+        const showSentOrBdo = !isShipment;
+
+        if (showSentOrBdo) {
+            if (notificationData.isForeign) {
+                if (sentNumber.length !== 4) {
+                    setSentError('Numer SENT musi składać się z 4 cyfr');
+                    isValid = false;
+                } else {
+                    setSentError('');
+                }
+            } else {
+                if (!bdoCode.trim()) {
+                    setBdoError(t('validation.required'));
+                    isValid = false;
+                } else {
+                    setBdoError('');
+                }
+            }
+        }
+
+        const missingWasteCodes: string[] = [];
+        notificationData.cargoItems.forEach(item => {
+            const wasteCode = wasteCodes[item.id.toString()] || '';
+            if (!wasteCode.trim()) {
+                missingWasteCodes.push(item.cargoName || `Pozycja ${item.id}`);
+            }
+        });
+
+        if (missingWasteCodes.length > 0) {
+            setWasteCodesError(t('validation.required'));
+            isValid = false;
+        } else {
+            setWasteCodesError('');
+        }
+
+        return isValid;
+    };
+
     const handleConfirm = async () => {
-        if (!dataConfirmed || !notificationData) {
-            console.error('Cannot confirm: dataConfirmed=', dataConfirmed, 'notificationData=', notificationData);
+        if (!notificationData) {
+            console.error('Cannot confirm: notificationData=', notificationData);
+            return;
+        }
+
+        if (!validateForm()) {
             return;
         }
 
         const isShipment = notificationData.transportType === 'L';
         const sentNo = isShipment ? '' : (notificationData.isForeign ? sentNumber : '');
         const bdoCodeValue = isShipment ? '' : (notificationData.isForeign ? '' : bdoCode);
-
-        if (!isShipment && notificationData.isForeign && sentNumber.length !== 4) {
-            setSentError('Numer SENT musi składać się z 4 cyfr');
-            return;
-        }
+        const driverDataConsistent = dataConsistency === 'consistent';
 
         const verifyBody = {
             notificationId: notificationData.id,
             sentNo: sentNo || '',
             bdoCode: bdoCodeValue || '',
+            driverDataConsistent: driverDataConsistent,
             items: notificationData.cargoItems.map(item => ({
                 cargoItemId: item.id,
                 wasteCode: wasteCodes[item.id.toString()] || item.declaredWasteCode || ''
@@ -150,11 +210,23 @@ const NotificationDetailsScreen = () => {
                                         <TextField
                                             fullWidth
                                             value={wasteCodes[item.id.toString()] || ''}
-                                            onChange={(e) =>
-                                                setWasteCodes({ ...wasteCodes, [item.id.toString()]: e.target.value })
-                                            }
+                                            onChange={(e) => {
+                                                setWasteCodes({ ...wasteCodes, [item.id.toString()]: e.target.value });
+                                                if (wasteCodesError && e.target.value.trim()) {
+                                                    const allFilled = notificationData?.cargoItems.every(cargoItem => {
+                                                        const code = cargoItem.id === item.id 
+                                                            ? e.target.value 
+                                                            : wasteCodes[cargoItem.id.toString()] || '';
+                                                        return code.trim() !== '';
+                                                    });
+                                                    if (allFilled) {
+                                                        setWasteCodesError('');
+                                                    }
+                                                }
+                                            }}
                                             size="small"
                                             placeholder="Wprowadź kod odpadu..."
+                                            error={!!wasteCodesError}
                                         />
                                     </TableCell>
                                 </TableRow>
@@ -187,9 +259,16 @@ const NotificationDetailsScreen = () => {
                                 fullWidth
                                 label={t('notificationDetails.bdoCode')}
                                 value={bdoCode}
-                                onChange={(e) => setBdoCode(e.target.value)}
+                                onChange={(e) => {
+                                    setBdoCode(e.target.value);
+                                    if (bdoError && e.target.value.trim()) {
+                                        setBdoError('');
+                                    }
+                                }}
                                 size="small"
                                 placeholder="Wprowadź kody BDO..."
+                                error={!!bdoError}
+                                helperText={bdoError}
                                 sx={{ maxWidth: 400 }}
                             />
                         )}
@@ -305,26 +384,45 @@ const NotificationDetailsScreen = () => {
                         <Divider sx={{ mb: 1.5 }} />
                         {renderCargoFields()}
                     </Paper>
-                    <Paper sx={{ p: 2, bgcolor: dataConfirmed ? '#ffa726' : 'white' }}>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={dataConfirmed}
-                                    onChange={(e) => setDataConfirmed(e.target.checked)}
-                                    sx={{
-                                        '&.Mui-checked': {
-                                            color: 'white',
-                                        },
-                                    }}
+                    <Paper sx={{ p: 2 }}>
+                        <FormControl component="fieldset" error={!!dataConsistencyError} sx={{ width: '100%' }}>
+                            <FormLabel component="legend" sx={{ mb: 1, fontWeight: 600 }}>
+                                {t('inconsistencies.dataConsistency')}
+                            </FormLabel>
+                            <RadioGroup
+                                row
+                                value={dataConsistency}
+                                onChange={(e) => {
+                                    setDataConsistency(e.target.value as 'consistent' | 'inconsistent');
+                                    if (dataConsistencyError) {
+                                        setDataConsistencyError('');
+                                    }
+                                }}
+                            >
+                                <FormControlLabel
+                                    value="consistent"
+                                    control={<Radio />}
+                                    label={t('inconsistencies.consistent')}
                                 />
-                            }
-                            label={
-                                <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                                    {t('notificationDetails.confirmDataAccuracy')}
+                                <FormControlLabel
+                                    value="inconsistent"
+                                    control={<Radio />}
+                                    label={t('inconsistencies.inconsistent')}
+                                />
+                            </RadioGroup>
+                            {dataConsistencyError && (
+                                <Typography variant="caption" color="error" sx={{ mt: 0.5, display: 'block' }}>
+                                    {dataConsistencyError}
                                 </Typography>
-                            }
-                        />
+                            )}
+                        </FormControl>
                     </Paper>
+
+                    {wasteCodesError && (
+                        <Alert severity="error">
+                            {t('validation.required')} - {t('notificationDetails.wasteCode')}
+                        </Alert>
+                    )}
 
                     <Box sx={{ display: 'flex', gap: 2, justifyContent: 'space-between', mt: 1 }}>
                         <Button
@@ -346,7 +444,7 @@ const NotificationDetailsScreen = () => {
                             size="large"
                             startIcon={<CheckCircleIcon />}
                             onClick={handleConfirm}
-                            disabled={!dataConfirmed || isVerifying || !!sentError}
+                            disabled={isVerifying || !!sentError || !!bdoError || !!dataConsistencyError || !!wasteCodesError}
                             sx={{
                                 py: 1.5,
                                 fontSize: '1.125rem',

@@ -19,8 +19,8 @@ import type { SearchMode, SendEmailRequest, SendEmailRequestItem } from './types
  */
 export const useFindNotification = () => {
   return useMutation({
-    mutationFn: ({ mode, code }: { mode: SearchMode; code: string }) => 
-      findNotification(mode, code),
+    mutationFn: ({ mode, code, secret }: { mode: SearchMode; code: string; secret: string }) => 
+      findNotification(mode, code, secret),
   });
 };
 
