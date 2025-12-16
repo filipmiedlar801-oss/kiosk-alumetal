@@ -20,6 +20,8 @@ interface LanguageOption {
 const languages: LanguageOption[] = [
   { code: 'pl', name: 'Polski', flag: '🇵🇱' },
   { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+  { code: 'ua', name: 'Українська', flag: '🇺🇦' },
 ];
 
 const LanguageScreen = () => {

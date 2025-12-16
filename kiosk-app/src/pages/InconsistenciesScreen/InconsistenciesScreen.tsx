@@ -76,8 +76,15 @@ const { mutateAsync: sendInconsistencyEmailAsync, isPending: isSendingEmail } = 
 
     const handleFinish = async () => {
         try {
-            const mockPayload = [{ id: 0, description: 'string', sootData: 'string', paperData: 'string' }];
-            await finishVerificationAsync(mockPayload);
+            const payload = inconsistencies.flatMap((inc) =>
+                inc.items.map((item) => ({
+                    id: inc.notificationId,
+                    description: item.description,
+                    sootData: item.sootData,
+                    paperData: item.paperData,
+                }))
+            );
+            await finishVerificationAsync(payload);
             NotificationUseCase.clearAll();
             clearAllNotifications();
             navigate('/language');

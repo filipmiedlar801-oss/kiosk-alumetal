@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NotificationUseCase } from '../../services/notificationUseCase';
 
-const SESSION_TIMEOUT = 30 * 60 * 1000; 
+const SESSION_TIMEOUT = 5 * 60 * 1000; 
 
 export const SessionManager = () => {
   const navigate = useNavigate();

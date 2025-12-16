@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next';
 const languages = [
   { code: 'pl', name: 'Polski', flag: '🇵🇱' },
   { code: 'en', name: 'English', flag: '🇬🇧' },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
+  { code: 'ua', name: 'Українська', flag: '🇺🇦' },
 ];
 
 const LanguageSelector = () => {

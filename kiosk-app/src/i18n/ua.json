@@ -1,0 +1,142 @@
+{
+    "common": {
+      "back": "Назад",
+      "next": "Далі",
+      "confirm": "Підтвердити",
+      "cancel": "Скасувати",
+      "search": "Пошук",
+      "add": "Додати",
+      "remove": "Видалити",
+      "save": "Зберегти",
+      "edit": "Редагувати",
+      "close": "Закрити",
+      "loading": "Завантаження...",
+      "error": "Помилка",
+      "success": "Успіх"
+    },
+    "language": {
+      "title": "Вибір мови / Wybierz język",
+      "polish": "Польська",
+      "english": "Англійська",
+      "german": "Німецька",
+      "ukrainian": "Українська"
+    },
+    "notificationList": {
+      "title": "Список повідомлень",
+      "addNotification": "Додати повідомлення",
+      "allAdded": "Я додав усі повідомлення [Продовжити]",
+      "empty": "Повідомлення ще не додано",
+      "emptyDescription": "Натисніть кнопку вище, щоб додати перше повідомлення",
+      "minOneRequired": "Для продовження потрібно додати хоча б одне повідомлення",
+      "removeConfirm": "Ви впевнені, що хочете видалити це повідомлення?",
+      "removeDialog": {
+        "title": "Видалити повідомлення",
+        "description": "Ви впевнені, що хочете видалити це повідомлення зі списку?"
+      }
+    },
+    "search": {
+      "title": "Пошук повідомлення",
+      "methods": {
+        "pin": "PIN",
+        "orderNumber": "Номер замовлення",
+        "shipmentId": "ID відправлення",
+        "qrCode": "QR-код"
+      },
+      "placeholders": {
+        "pin": "Введіть PIN",
+        "orderNumber": "Введіть номер замовлення",
+        "shipmentId": "Введіть ID відправлення",
+        "registrationNumber": "Введіть реєстраційний номер ТЗ"
+      },
+      "notFound": "Повідомлення не знайдено",
+      "noResults": "За вказаними даними повідомлення не знайдено",
+      "error": "Помилка під час пошуку. Спробуйте ще раз.",
+      "searchError": "Помилка під час пошуку. Спробуйте ще раз.",
+      "scanQR": "Сканувати QR-код",
+      "resultsFound": "Результати знайдено"
+    },
+    "notificationDetails": {
+      "title": "Деталі повідомлення",
+      "driverInfo": "Інформація про водія",
+      "vehicleInfo": "Інформація про транспорт",
+      "cargoInfo": "Інформація про вантаж",
+      "firstName": "Ім’я",
+      "lastName": "Прізвище",
+      "phone": "Телефон",
+      "documents": "Документи",
+      "registration": "Реєстраційний номер",
+      "trailer": "Причіп",
+      "personalIdNo": "Номер документа",
+      "vehicleType": "Тип транспортного засобу",
+      "positions": "Позиції вантажу",
+      "sentNumber": "Номер SENT",
+      "bdoCode": "Код BDO",
+      "wasteCode": "Код відходів",
+      "weight": "Вага",
+      "confirmDataAccuracy": "Я підтверджую правильність персональних даних",
+      "validationErrors": "Виявлено невідповідності даних",
+      "dataMustBeAccurate": "Усі дані повинні відповідати системі SOOT"
+    },
+    "summary": {
+      "title": "Підсумок реєстрації",
+      "success": "Реєстрацію успішно завершено!",
+      "driverData": "Дані водія",
+      "registeredNotifications": "Зареєстровані повідомлення",
+      "nextSteps": "Наступні кроки",
+      "waitForSMS": "Очікуйте SMS-підтвердження",
+      "goToScale": "Прямуйте до ваг відповідно до інструкцій",
+      "finish": "Завершити",
+      "submitting": "Надсилання реєстрації...",
+      "printConfirmation": "Роздрукувати підтвердження"
+    },
+    "errors": {
+      "title": "Виявлено невідповідності",
+      "description": "Ви не можете продовжити через такі невідповідності:",
+      "actions": {
+        "goBack": "Повернутися та виправити",
+        "sendEmail": "Надіслати email до логістики",
+        "finish": "Завершити"
+      },
+      "emailSent": "Email надіслано до логістики",
+      "emailError": "Помилка надсилання email"
+    },
+    "validation": {
+      "required": "Це поле є обов’язковим",
+      "invalidFormat": "Неправильний формат",
+      "invalidSENT": "Неправильний номер SENT",
+      "invalidBDO": "Неправильний код BDO",
+      "invalidWasteCode": "Неправильний код відходів",
+      "dataInconsistent": "Дані не відповідають системі SOOT"
+    },
+    "notificationTypes": {
+      "foreign": "Іноземна доставка",
+      "domestic": "Внутрішня доставка (BDO)",
+      "shipment": "Відправлення"
+    },
+    "inconsistencies": {
+      "title": "Невідповідності",
+      "noInconsistencies": "Невідповідностей не виявлено.",
+      "detected": "Виявлено невідповідності",
+      "foundCount": "Виявлено {{count}} невідповідність у {{notifCount}} повідомленні",
+      "foundCount_other": "Виявлено {{count}} невідповідностей у {{notifCount}} повідомленнях",
+      "notification": "Повідомлення",
+      "inconsistency": "невідповідність",
+      "inconsistencies_other": "невідповідності",
+      "sootData": "Дані системи SOOT",
+      "paperData": "Дані з документів",
+      "sendEmail": "Надіслати email",
+      "emailSent": "Email успішно надіслано",
+      "finish": "Завершити",
+      "dataConsistency": "Персональні дані та реєстраційні номери транспортних засобів і причепів",
+      "consistent": "Відповідає",
+      "inconsistent": "Не відповідає",
+      "selectOption": "Будь ласка, оберіть один з варіантів",
+      "descriptions": {
+        "sentCode": "Неправильний код SENT",
+        "bdoCode": "Неправильний код BDO",
+        "driverData": "Неправильні дані водія",
+        "wasteCodeForPosition": "Неправильний код відходів для {{position}}"
+      }
+    }
+  }
+  

@@ -51,9 +51,7 @@ const SummaryScreen = () => {
   const handleFinish = async () => {
     setSubmitting(true);
     try {
-      // Mock payload - endpoint not finished yet
-      const mockPayload = [{ id: 0, description: 'string', sootData: 'string', paperData: 'string' }];
-      await finishVerificationAsync(mockPayload);
+      await finishVerificationAsync([]);
       NotificationUseCase.clearAll();
       clearAllNotifications();
       navigate('/language');

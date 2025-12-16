@@ -1,0 +1,142 @@
+{
+    "common": {
+      "back": "Zurück",
+      "next": "Weiter",
+      "confirm": "Bestätigen",
+      "cancel": "Abbrechen",
+      "search": "Suchen",
+      "add": "Hinzufügen",
+      "remove": "Entfernen",
+      "save": "Speichern",
+      "edit": "Bearbeiten",
+      "close": "Schließen",
+      "loading": "Wird geladen...",
+      "error": "Fehler",
+      "success": "Erfolg"
+    },
+    "language": {
+      "title": "Sprache auswählen / Wybierz język",
+      "polish": "Polnisch",
+      "english": "Englisch",
+      "german": "Deutsch",
+      "ukrainian": "Ukrainisch"
+    },
+    "notificationList": {
+      "title": "Benachrichtigungsliste",
+      "addNotification": "Benachrichtigung hinzufügen",
+      "allAdded": "Ich habe alle Benachrichtigungen hinzugefügt [Weiter]",
+      "empty": "Noch keine Benachrichtigungen hinzugefügt",
+      "emptyDescription": "Klicken Sie oben, um Ihre erste Benachrichtigung hinzuzufügen",
+      "minOneRequired": "Sie müssen mindestens eine Benachrichtigung hinzufügen, um fortzufahren",
+      "removeConfirm": "Möchten Sie diese Benachrichtigung wirklich entfernen?",
+      "removeDialog": {
+        "title": "Benachrichtigung entfernen",
+        "description": "Möchten Sie diese Benachrichtigung wirklich aus der Liste entfernen?"
+      }
+    },
+    "search": {
+      "title": "Benachrichtigung suchen",
+      "methods": {
+        "pin": "PIN",
+        "orderNumber": "Bestellnummer",
+        "shipmentId": "Sendungs-ID",
+        "qrCode": "QR-Code"
+      },
+      "placeholders": {
+        "pin": "PIN eingeben",
+        "orderNumber": "Bestellnummer eingeben",
+        "shipmentId": "Sendungs-ID eingeben",
+        "registrationNumber": "Fahrzeugkennzeichen eingeben"
+      },
+      "notFound": "Benachrichtigung nicht gefunden",
+      "noResults": "Keine Benachrichtigungen für die angegebenen Daten gefunden",
+      "error": "Fehler bei der Suche. Bitte versuchen Sie es erneut.",
+      "searchError": "Fehler bei der Suche. Bitte versuchen Sie es erneut.",
+      "scanQR": "QR-Code scannen",
+      "resultsFound": "Ergebnisse gefunden"
+    },
+    "notificationDetails": {
+      "title": "Benachrichtigungsdetails",
+      "driverInfo": "Fahrerdaten",
+      "vehicleInfo": "Fahrzeuginformationen",
+      "cargoInfo": "Ladungsinformationen",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "phone": "Telefon",
+      "documents": "Dokumente",
+      "registration": "Kennzeichen",
+      "trailer": "Anhänger",
+      "personalIdNo": "Personalausweisnummer",
+      "vehicleType": "Fahrzeugtyp",
+      "positions": "Ladungspositionen",
+      "sentNumber": "SENT-Nummer",
+      "bdoCode": "BDO-Code",
+      "wasteCode": "Abfallcode",
+      "weight": "Gewicht",
+      "confirmDataAccuracy": "Ich bestätige die Richtigkeit der personenbezogenen Daten",
+      "validationErrors": "Dateninkonsistenzen festgestellt",
+      "dataMustBeAccurate": "Alle Daten müssen mit dem SOOT-System übereinstimmen"
+    },
+    "summary": {
+      "title": "Registrierungsübersicht",
+      "success": "Registrierung erfolgreich abgeschlossen!",
+      "driverData": "Fahrerdaten",
+      "registeredNotifications": "Registrierte Benachrichtigungen",
+      "nextSteps": "Nächste Schritte",
+      "waitForSMS": "Warten Sie auf die SMS-Bestätigung",
+      "goToScale": "Begeben Sie sich gemäß Anweisung zur Waage",
+      "finish": "Fertigstellen",
+      "submitting": "Registrierung wird übermittelt...",
+      "printConfirmation": "Bestätigung drucken"
+    },
+    "errors": {
+      "title": "Inkongruenzen festgestellt",
+      "description": "Sie können mit folgenden Inkonsistenzen nicht fortfahren:",
+      "actions": {
+        "goBack": "Zurückgehen und korrigieren",
+        "sendEmail": "E-Mail an Logistik senden",
+        "finish": "Fertigstellen"
+      },
+      "emailSent": "E-Mail wurde an die Logistik gesendet",
+      "emailError": "Fehler beim Senden der E-Mail"
+    },
+    "validation": {
+      "required": "Dieses Feld ist erforderlich",
+      "invalidFormat": "Ungültiges Format",
+      "invalidSENT": "Ungültige SENT-Nummer",
+      "invalidBDO": "Ungültiger BDO-Code",
+      "invalidWasteCode": "Ungültiger Abfallcode",
+      "dataInconsistent": "Daten stimmen nicht mit dem SOOT-System überein"
+    },
+    "notificationTypes": {
+      "foreign": "Ausländische Lieferung",
+      "domestic": "Inländische Lieferung (BDO)",
+      "shipment": "Sendung"
+    },
+    "inconsistencies": {
+      "title": "Inkonsistenzen",
+      "noInconsistencies": "Keine Inkonsistenzen vorhanden.",
+      "detected": "Inkonsistenzen festgestellt",
+      "foundCount": "{{count}} Inkonsistenz in {{notifCount}} Benachrichtigung gefunden",
+      "foundCount_other": "{{count}} Inkonsistenzen in {{notifCount}} Benachrichtigungen gefunden",
+      "notification": "Benachrichtigung",
+      "inconsistency": "Inkonsistenz",
+      "inconsistencies_other": "Inkonsistenzen",
+      "sootData": "Daten aus dem SOOT-System",
+      "paperData": "Dokumentendaten",
+      "sendEmail": "E-Mail senden",
+      "emailSent": "E-Mail erfolgreich gesendet",
+      "finish": "Fertigstellen",
+      "dataConsistency": "Personendaten sowie Fahrzeug- und Anhängerkennzeichen",
+      "consistent": "Übereinstimmend",
+      "inconsistent": "Nicht übereinstimmend",
+      "selectOption": "Bitte wählen Sie eine der Optionen aus",
+      "descriptions": {
+        "sentCode": "Falscher SENT-Code",
+        "bdoCode": "Falscher BDO-Code",
+        "driverData": "Falsche Fahrerdaten",
+        "wasteCodeForPosition": "Falscher Abfallcode für {{position}}"
+      }
+    }
+  }
+  
