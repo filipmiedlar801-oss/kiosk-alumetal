@@ -9,7 +9,7 @@ import {
   Paper,
   Fade,
 } from '@mui/material';
-import LanguageIcon from '@mui/icons-material/Language';
+import AlumetalLogo from '../../components/AlumetalLogo/AlumetalLogo';
 
 interface LanguageOption {
   code: string;
@@ -56,24 +56,11 @@ const LanguageScreen = () => {
               p: 6,
               borderRadius: 4,
               textAlign: 'center',
+              border: 'none',
             }}
           >
             <Box sx={{ mb: 4 }}>
-              <LanguageIcon sx={{ fontSize: 80, color: 'primary.main' }} />
-              <Typography
-                variant="h3"
-                component="h1"
-                sx={{
-                  mt: 2,
-                  fontWeight: 700,
-                  color: 'primary.main',
-                }}
-              >
-                ALUMETAL
-              </Typography>
-              <Typography variant="h6" color="text.secondary" sx={{ mt: 1 }}>
-                Kiosk Rejestracji Kierowców
-              </Typography>
+             <AlumetalLogo color="#868786" />
             </Box>
 
             <Typography
@@ -98,12 +85,12 @@ const LanguageScreen = () => {
                 <Button
                   key={lang.code}
                   variant={selectedLang === lang.code ? 'contained' : 'outlined'}
-                  size="large"
                   onClick={() => handleLanguageSelect(lang.code)}
                   sx={{
-                    py: 4,
-                    px: 4,
+                    py: 2,
+                    px: 2,
                     fontSize: '1.5rem',
+                    backgroundColor: 'white',
                     borderRadius: 3,
                     border: '2px solid',
                     borderColor: selectedLang === lang.code ? 'primary.main' : 'divider',
@@ -111,7 +98,9 @@ const LanguageScreen = () => {
                     '&:hover': {
                       transform: 'translateY(-4px)',
                       boxShadow: '0 8px 16px rgba(0,0,0,0.2)',
+                      backgroundColor: 'primary.main',
                       borderColor: 'primary.main',
+                      color: 'white',
                     },
                   }}
                 >
@@ -127,7 +116,7 @@ const LanguageScreen = () => {
 
             <Typography
               variant="body2"
-              color="text.secondary"
+              color="text.primary"
               sx={{ mt: 4 }}
             >
               Dotknij wybranego języka / Touch your preferred language
