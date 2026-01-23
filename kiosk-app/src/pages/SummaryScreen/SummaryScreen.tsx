@@ -229,12 +229,6 @@ const SummaryScreen = () => {
             </Box>
           </Stack>
 
-          <Alert severity="info">
-            <Typography variant="body2">
-              <strong>Demo mode:</strong> Po kliknięciu "Zakończ" rejestracja zostanie
-              zresetowana i wrócisz do ekranu wyboru języka.
-            </Typography>
-          </Alert>
         </Stack>
       </Container>
     </Layout>
