@@ -51,7 +51,13 @@ const SummaryScreen = () => {
   const handleFinish = async () => {
     setSubmitting(true);
     try {
-      await finishVerificationAsync([]);
+      const payload = (data?.items || []).map((notification) => ({
+        id: notification.id,
+        description: 'OK',
+        sootData: '',
+        paperData: '',
+      }));
+      await finishVerificationAsync(payload);
       NotificationUseCase.clearAll();
       clearAllNotifications();
       navigate('/language');
