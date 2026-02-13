@@ -113,6 +113,11 @@
       "domestic": "Внутрішня доставка (BDO)",
       "shipment": "Відправлення"
     },
+  "safetyRules": {
+    "acceptText": "Я приймаю та зобов'язуюсь дотримуватися правил",
+    "confirm": "TAK",
+    "back": "НАЗАД"
+  },
     "inconsistencies": {
       "title": "Невідповідності",
       "noInconsistencies": "Невідповідностей не виявлено.",

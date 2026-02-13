@@ -35,7 +35,7 @@ const LanguageScreen = () => {
     localStorage.setItem('language', langCode);
     
     setTimeout(() => {
-      navigate('/notifications');
+      navigate('/safety-rules');
     }, 300);
   };
 

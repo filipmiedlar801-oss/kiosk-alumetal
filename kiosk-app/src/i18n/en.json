@@ -114,6 +114,11 @@
     "domestic": "Domestic Delivery (BDO)",
     "shipment": "Shipment"
   },
+  "safetyRules": {
+    "acceptText": "I accept and commit to comply with the rules",
+    "confirm": "YES",
+    "back": "BACK"
+  },
   "inconsistencies": {
     "title": "Inconsistencies",
     "noInconsistencies": "No inconsistencies to display.",

@@ -112,6 +112,11 @@
     "domestic": "Dostawa krajowa (BDO)",
     "shipment": "Wysyłka"
   },
+  "safetyRules": {
+    "acceptText": "Akceptuję i zobowiązuję się do przestrzegania zasad",
+    "confirm": "TAK",
+    "back": "POWRÓT"
+  },
   "inconsistencies": {
     "title": "Niezgodności",
     "noInconsistencies": "Brak niezgodności do wyświetlenia.",

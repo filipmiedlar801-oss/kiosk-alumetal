@@ -113,6 +113,11 @@
       "domestic": "Inländische Lieferung (BDO)",
       "shipment": "Sendung"
     },
+  "safetyRules": {
+    "acceptText": "Ich akzeptiere und verpflichte mich zur Einhaltung der Regeln",
+    "confirm": "JA",
+    "back": "ZURÜCK"
+  },
     "inconsistencies": {
       "title": "Inkonsistenzen",
       "noInconsistencies": "Keine Inkonsistenzen vorhanden.",
