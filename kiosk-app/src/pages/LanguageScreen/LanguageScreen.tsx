@@ -9,7 +9,7 @@ import {
   Paper,
   Fade,
 } from '@mui/material';
-import AlumetalLogo from '../../components/AlumetalLogo/AlumetalLogo';
+import HydroLogo from '../../components/HydroLogo/HydroLogo';
 
 interface LanguageOption {
   code: string;
@@ -46,21 +46,23 @@ const LanguageScreen = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        bgcolor: 'background.default',
       }}
     >
       <Container maxWidth="md">
         <Fade in timeout={800}>
           <Paper
-            elevation={8}
+            elevation={0}
             sx={{
               p: 6,
               borderRadius: 4,
               textAlign: 'center',
               border: 'none',
+              bgcolor: 'background.default',
             }}
           >
-            <Box sx={{ mb: 4 }}>
-             <AlumetalLogo color="#868786" />
+            <Box sx={{ mb: 4, display: 'flex', justifyContent: 'center' }}>
+              <HydroLogo variant="gray" height={200} />
             </Box>
 
             <Typography

@@ -100,7 +100,7 @@ const SafetyRulesScreen = () => {
         <Container maxWidth="md" sx={{ width: '100%', py: 0, mt: 2 }}>
         <Fade in timeout={500}>
           <Paper
-            elevation={8}
+            elevation={0}
             sx={{
               p: 1.5,
               borderRadius: 4,
@@ -108,7 +108,6 @@ const SafetyRulesScreen = () => {
               flexDirection: 'column',
               alignItems: 'center',
               gap: 1.5,
-              border: 'none',
             }}
           >
             <FormControlLabel

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Box, AppBar, Toolbar, Typography } from '@mui/material';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
-import AlumetalLogo from '../AlumetalLogo/AlumetalLogo';
+import HydroLogo from '../HydroLogo/HydroLogo';
 
 interface LayoutProps {
   children: ReactNode;
@@ -22,8 +22,8 @@ const Layout = ({ children, title, showLanguageSwitch = false }: LayoutProps) =>
       <AppBar position="static" elevation={2} sx={{ boxShadow: 'none', bgcolor: 'secondary.main', border:'none' }}>
 
         <Toolbar sx={{ position: 'relative' }}>
-          <Box sx={{ marginRight: 'auto' }}>
-            <AlumetalLogo />
+          <Box sx={{ marginRight: 'auto', display: 'flex', alignItems: 'center' }}>
+            <HydroLogo height={80} />
           </Box>
           <Typography
             variant="h6"
@@ -35,7 +35,7 @@ const Layout = ({ children, title, showLanguageSwitch = false }: LayoutProps) =>
               fontWeight: 600
             }}
           >
-            {title || <AlumetalLogo />}
+            {title || <HydroLogo height={56} />}
           </Typography>
           <Box sx={{ marginLeft: 'auto' }}>
             {showLanguageSwitch && <LanguageSelector />}
