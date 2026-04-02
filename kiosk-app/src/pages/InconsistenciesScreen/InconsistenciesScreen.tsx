@@ -183,18 +183,7 @@ const { mutateAsync: sendInconsistencyEmailAsync, isPending: isSendingEmail } = 
                                                         {formatDescription(item.description, t)}
                                                     </Typography>
                                                 }
-                                                secondary={
-                                                    item.description !== 'niezgodne_dane_kierowcy' ? (
-                                                        <Box component="span" sx={{ display: 'block', mt: 1 }}>
-                                                            <Typography component="span" variant="body2" color="text.secondary" sx={{ display: 'block' }}>
-                                                                <strong>{t('inconsistencies.sootData')}:</strong> {item.sootData}
-                                                            </Typography>
-                                                            <Typography component="span" variant="body2" color="text.secondary" sx={{ display: 'block' }}>
-                                                                <strong>{t('inconsistencies.paperData')}:</strong> {item.paperData}
-                                                            </Typography>
-                                                        </Box>
-                                                    ) : null
-                                                }
+                                                secondary={null}
                                             />
                                         </ListItem>
                                     ))}

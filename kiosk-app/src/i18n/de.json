@@ -38,8 +38,8 @@
       "title": "Benachrichtigung suchen",
       "methods": {
         "pin": "PIN",
-        "orderNumber": "Bestellnummer",
-        "shipmentId": "Sendungs-ID",
+        "orderNumber": "Entladung (Bestellnummer)",
+        "shipmentId": "Beladung (Sendungs-ID)",
         "qrCode": "QR-Code"
       },
       "placeholders": {
@@ -50,6 +50,7 @@
       },
       "notFound": "Benachrichtigung nicht gefunden",
       "noResults": "Keine Benachrichtigungen für die angegebenen Daten gefunden",
+      "alreadyRegistered": "Benachrichtigung ist bereits registriert",
       "error": "Fehler bei der Suche. Bitte versuchen Sie es erneut.",
       "searchError": "Fehler bei der Suche. Bitte versuchen Sie es erneut.",
       "scanQR": "QR-Code scannen",
@@ -70,7 +71,11 @@
       "vehicleType": "Fahrzeugtyp",
       "positions": "Ladungspositionen",
       "sentNumber": "SENT-Nummer",
+      "sentPlaceholder": "Letzte 4 Ziffern der SENT eingeben",
+      "sentError": "SENT-Nummer muss aus 4 Ziffern bestehen",
       "bdoCode": "BDO-Code",
+      "kpoCardLabel": "Abfallübergabekarte",
+      "kpoCardPlaceholder": "Erste 5 Ziffern der KPO-Karte eingeben (mehrere Karten - durch Komma trennen)",
       "wasteCode": "Abfallcode",
       "weight": "Gewicht",
       "confirmDataAccuracy": "Ich bestätige die Richtigkeit der personenbezogenen Daten",
@@ -87,7 +92,9 @@
       "goToScale": "Begeben Sie sich gemäß Anweisung zur Waage",
       "finish": "Fertigstellen",
       "submitting": "Registrierung wird übermittelt...",
-      "printConfirmation": "Bestätigung drucken"
+      "printConfirmation": "Bestätigung drucken",
+      "customsClearance": "Zollabfertigung",
+      "customsCheckbox": "Ich bestätige, dass die Zollabfertigung der Ladung durchgeführt wurde."
     },
     "errors": {
       "title": "Inkongruenzen festgestellt",

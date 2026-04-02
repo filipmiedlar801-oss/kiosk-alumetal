@@ -38,8 +38,8 @@
     "title": "Wyszukaj awizację",
     "methods": {
       "pin": "PIN",
-      "orderNumber": "Numer zamówienia",
-      "shipmentId": "ID wysyłki",
+      "orderNumber": "Rozładunek (Nr zamówienia)",
+      "shipmentId": "Załadunek (ID wysyłki)",
       "qrCode": "Kod QR"
     },
     "placeholders": {
@@ -50,6 +50,7 @@
     },
     "notFound": "Nie znaleziono awizacji",
     "noResults": "Nie znaleziono awizacji dla podanych danych",
+    "alreadyRegistered": "Awizacja jest już zarejestrowana",
     "error": "Błąd podczas wyszukiwania. Spróbuj ponownie.",
     "searchError": "Błąd podczas wyszukiwania. Spróbuj ponownie.",
     "scanQR": "Zeskanuj kod QR",
@@ -69,7 +70,11 @@
     "vehicleType": "Typ pojazdu",
     "positions": "Pozycje ładunku",
     "sentNumber": "Numer SENT",
+    "sentPlaceholder": "Wpisz 4 ostatnie cyfry SENT",
+    "sentError": "Numer SENT musi składać się z 4 cyfr",
     "bdoCode": "Kod BDO",
+    "kpoCardLabel": "Karta przekazania odpadu",
+    "kpoCardPlaceholder": "Wpisz 5 pierwszych cyfr karty KPO (kilka kart - oddziel przecinkiem)",
     "wasteCode": "Kod odpadu",
     "weight": "Waga",
     "confirmDataAccuracy": "Potwierdzam zgodność danych osobowych",
@@ -86,7 +91,9 @@
     "goToScale": "Udaj się do wagi zgodnie z instrukcjami",
     "finish": "Zakończ",
     "submitting": "Zapisywanie rejestracji...",
-    "printConfirmation": "Wydrukuj potwierdzenie"
+    "printConfirmation": "Wydrukuj potwierdzenie",
+    "customsClearance": "Odprawa celna",
+    "customsCheckbox": "Potwierdzam, że odprawa celna ładunku została przeprowadzona."
   },
   "errors": {
     "title": "Wykryto niezgodności",

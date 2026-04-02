@@ -38,8 +38,8 @@
     "title": "Search Notification",
     "methods": {
       "pin": "PIN",
-      "orderNumber": "Order Number",
-      "shipmentId": "Shipment ID",
+      "orderNumber": "Unloading (Order Number)",
+      "shipmentId": "Loading (Shipment ID)",
       "qrCode": "QR Code"
     },
     "placeholders": {
@@ -50,6 +50,7 @@
     },
     "notFound": "Notification not found",
     "noResults": "No notifications found for the given data",
+    "alreadyRegistered": "Notification is already registered",
     "error": "Error while searching. Please try again.",
     "searchError": "Error while searching. Please try again.",
     "scanQR": "Scan QR code",
@@ -70,7 +71,11 @@
     "vehicleType": "Vehicle Type",
     "positions": "Cargo Positions",
     "sentNumber": "SENT Number",
+    "sentPlaceholder": "Enter last 4 digits of SENT",
+    "sentError": "SENT number must be 4 digits",
     "bdoCode": "BDO Code",
+    "kpoCardLabel": "Waste transfer card",
+    "kpoCardPlaceholder": "Enter first 5 digits of KPO card (multiple cards - separate with comma)",
     "wasteCode": "Waste Code",
     "weight": "Weight",
     "confirmDataAccuracy": "I confirm the accuracy of personal data",
@@ -88,7 +93,9 @@
     "goToScale": "Go to the scale according to instructions",
     "finish": "Finish",
     "submitting": "Submitting registration...",
-    "printConfirmation": "Print Confirmation"
+    "printConfirmation": "Print Confirmation",
+    "customsClearance": "Customs clearance",
+    "customsCheckbox": "I confirm that customs clearance of the cargo has been completed."
   },
   "errors": {
     "title": "Inconsistencies Detected",

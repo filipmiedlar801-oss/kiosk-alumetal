@@ -15,7 +15,6 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
-import PinIcon from '@mui/icons-material/Pin';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import Layout from '../../components/Layout/Layout';
@@ -23,19 +22,17 @@ import { useFindNotification } from '../../api/hooks';
 import { NotificationUseCase } from '../../services/notificationUseCase';
 import { SearchMode } from '../../api/types';
 
-type SearchTab = 'pin' | 'order' | 'shipment' | 'qr';
+type SearchTab = 'order' | 'shipment' | 'qr';
 
 const SearchNotificationScreen = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const [activeTab, setActiveTab] = useState<SearchTab>('pin');
+  const [activeTab, setActiveTab] = useState<SearchTab>('order');
   const [searchValue, setSearchValue] = useState('');
   const [registrationNumber, setRegistrationNumber] = useState('');
 
   const getSearchMode = (tab: SearchTab): SearchMode => {
     switch (tab) {
-      case 'pin':
-        return SearchMode.PIN;
       case 'order':
       case 'shipment':
         return SearchMode.ORDER_ID;
@@ -94,24 +91,14 @@ const SearchNotificationScreen = () => {
     alert('qr todo');
   };
 
+  const getSearchErrorMessage = () => {
+    if (!data || data.success) return '';
+    if (data.message === 'REGISTERED') return t('search.alreadyRegistered');
+    return t('search.noResults');
+  };
+
   const renderSearchInput = () => {
     switch (activeTab) {
-      case 'pin':
-        return (
-          <TextField
-            fullWidth
-            label={t('search.placeholders.pin')}
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-            type="number"
-            variant="outlined"
-            size="medium"
-            autoFocus
-            error={!!error || (data && !data.success)}
-            helperText={error?.message || (data && !data.success ? t('search.noResults') : '')}
-            sx={{ mb: 3 }}
-          />
-        );
       case 'order':
         return (
           <TextField
@@ -123,7 +110,7 @@ const SearchNotificationScreen = () => {
             size="medium"
             autoFocus
             error={!!error || (data && !data.success)}
-            helperText={error?.message || (data && !data.success ? t('search.noResults') : '')}
+            helperText={error?.message || (data && !data.success ? getSearchErrorMessage() : '')}
             sx={{ mb: 3 }}
           />
         );
@@ -138,7 +125,7 @@ const SearchNotificationScreen = () => {
             size="medium"
             autoFocus
             error={!!error || (data && !data.success)}
-            helperText={error?.message || (data && !data.success ? t('search.noResults') : '')}
+            helperText={error?.message || (data && !data.success ? getSearchErrorMessage() : '')}
             sx={{ mb: 3 }}
           />
         );
@@ -209,14 +196,6 @@ const SearchNotificationScreen = () => {
               sx={{ py: 2, fontSize: '1rem' }}
             />
             <Tab
-              value="pin"
-              label={t('search.methods.pin')}
-              icon={<PinIcon />}
-              iconPosition="start"
-              sx={{ py: 2, fontSize: '1rem' }}
-            />
-
-            <Tab
               value="shipment"
               label={t('search.methods.shipmentId')}
               icon={<LocalShippingIcon />}
@@ -279,7 +258,7 @@ const SearchNotificationScreen = () => {
             )}
             {data && !data.success && !error && (
               <Alert severity="error" sx={{ mt: 2 }}>
-                {t('search.noResults')}
+                {getSearchErrorMessage()}
               </Alert>
             )}
           </Box>

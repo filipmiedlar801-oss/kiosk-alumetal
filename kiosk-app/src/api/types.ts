@@ -26,6 +26,7 @@ export interface NotificationDetails {
   isForeign: boolean;
   transportType: string;
   cargoItems: CargoItem[];
+  customs?: boolean;
 }
 
 

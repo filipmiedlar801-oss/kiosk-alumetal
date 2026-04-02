@@ -83,7 +83,7 @@ const NotificationDetailsScreen = () => {
         const numericValue = value.replace(/\D/g, '').slice(0, 4);
         setSentNumber(numericValue);
         if (numericValue.length > 0 && numericValue.length !== 4) {
-            setSentError('Numer SENT musi składać się z 4 cyfr');
+            setSentError(t('notificationDetails.sentError'));
         } else {
             setSentError('');
         }
@@ -109,7 +109,7 @@ const NotificationDetailsScreen = () => {
         if (showSentOrBdo) {
             if (notificationData.isForeign) {
                 if (sentNumber.length !== 4) {
-                    setSentError('Numer SENT musi składać się z 4 cyfr');
+                    setSentError(t('notificationDetails.sentError'));
                     isValid = false;
                 } else {
                     setSentError('');
@@ -244,9 +244,9 @@ const NotificationDetailsScreen = () => {
                                 value={sentNumber}
                                 onChange={(e) => handleSentChange(e.target.value)}
                                 size="small"
-                                placeholder="Wprowadź numer SENT (4 cyfry)..."
+                                placeholder={t('notificationDetails.sentPlaceholder')}
                                 error={!!sentError}
-                                helperText={sentError || 'Wprowadź 4-cyfrowy numer SENT'}
+                                helperText={sentError || t('notificationDetails.sentPlaceholder')}
                                 inputProps={{
                                     maxLength: 4,
                                     inputMode: 'numeric',
@@ -257,7 +257,7 @@ const NotificationDetailsScreen = () => {
                         ) : (
                             <TextField
                                 fullWidth
-                                label={t('notificationDetails.bdoCode')}
+                                label={t('notificationDetails.kpoCardLabel')}
                                 value={bdoCode}
                                 onChange={(e) => {
                                     setBdoCode(e.target.value);
@@ -266,7 +266,7 @@ const NotificationDetailsScreen = () => {
                                     }
                                 }}
                                 size="small"
-                                placeholder="Wprowadź kody BDO..."
+                                placeholder={t('notificationDetails.kpoCardPlaceholder')}
                                 error={!!bdoError}
                                 helperText={bdoError}
                                 sx={{ maxWidth: 400 }}

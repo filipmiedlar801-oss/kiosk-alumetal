@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -15,6 +15,8 @@ import {
   ListItemIcon,
   CircularProgress,
   Alert,
+  Checkbox,
+  FormControlLabel,
 } from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
@@ -28,6 +30,13 @@ const SummaryScreen = () => {
   const { t } = useTranslation();
   const { notificationIds, clearAllNotifications } = useNotifications();
   const [submitting, setSubmitting] = useState(false);
+  const [customsConfirmed, setCustomsConfirmed] = useState(false);
+
+  const requiresCustomsClearance = useMemo(() => {
+    return notificationIds.some(
+      (id) => NotificationUseCase.getNotificationDetails(id)?.customs === true
+    );
+  }, [notificationIds]);
 
   const [driverData] = useState<any>(() => {
     const savedDriverData = NotificationUseCase.getDriverData();
@@ -192,6 +201,24 @@ const SummaryScreen = () => {
             </Stack>
           </Paper>
 
+          {requiresCustomsClearance && (
+            <Paper sx={{ p: 3 }}>
+              <Typography variant="h6" gutterBottom sx={{ fontWeight: 600, color: 'primary.main' }}>
+                {t('summary.customsClearance')}
+              </Typography>
+              <Divider sx={{ mb: 2 }} />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={customsConfirmed}
+                    onChange={(e) => setCustomsConfirmed(e.target.checked)}
+                  />
+                }
+                label={t('summary.customsCheckbox')}
+              />
+            </Paper>
+          )}
+
           <Stack spacing={2}>
             <Box sx={{ display: 'flex', gap: 2, justifyContent: 'space-between' }}>
               <Button
@@ -217,7 +244,7 @@ const SummaryScreen = () => {
                   )
                 }
                 onClick={handleFinish}
-                disabled={submitting}
+                disabled={submitting || (requiresCustomsClearance && !customsConfirmed)}
                 sx={{
                   py: 2,
                   fontSize: '1.125rem',
