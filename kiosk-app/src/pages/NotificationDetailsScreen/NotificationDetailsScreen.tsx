@@ -332,7 +332,7 @@ const NotificationDetailsScreen = () => {
                                 placeholder={t('notificationDetails.kpoCardPlaceholder')}
                                 error={!!bdoError}
                                 helperText={bdoError}
-                                sx={{ maxWidth: 400 }}
+                                sx={{ maxWidth: 560 }}
                             />
                         )}
                     </Box>

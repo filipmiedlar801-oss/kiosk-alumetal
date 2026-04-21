@@ -12,6 +12,7 @@ import {
   DialogContent,
   DialogActions,
   CircularProgress,
+  TextField,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -26,7 +27,7 @@ import { NotificationUseCase } from '../../services/notificationUseCase';
 const NotificationListScreen = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { notificationIds, removeNotification } = useNotifications();
+  const { notificationIds, removeNotification, clearAllNotifications } = useNotifications();
   const [removeDialogOpen, setRemoveDialogOpen] = useState(false);
   const [selectedNotificationId, setSelectedNotificationId] = useState<number | null>(null);
   
@@ -75,6 +76,12 @@ const NotificationListScreen = () => {
       console.warn(`Notification details not found in localStorage for ID: ${id}`);
       navigate('/search');
     }
+  };
+
+  const handleBackReset = () => {
+    NotificationUseCase.clearAll();
+    clearAllNotifications();
+    navigate('/language', { replace: true });
   };
 
   return (
@@ -197,7 +204,7 @@ const NotificationListScreen = () => {
               <Button
                 variant="outlined"
                 size="large"
-                onClick={() => navigate('/language')}
+                onClick={handleBackReset}
                 sx={{
                   py: 2,
                   fontSize: '1.125rem',
