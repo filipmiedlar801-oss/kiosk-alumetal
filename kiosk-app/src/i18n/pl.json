@@ -117,6 +117,7 @@
   "notificationTypes": {
     "foreign": "Dostawa zagraniczna",
     "domestic": "Dostawa krajowa (BDO)",
+    "domesticNoBdo": "Dostawa krajowa",
     "shipment": "Wysyłka"
   },
   "safetyRules": {

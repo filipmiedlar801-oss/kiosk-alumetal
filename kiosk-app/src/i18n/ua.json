@@ -118,6 +118,7 @@
     "notificationTypes": {
       "foreign": "Іноземна доставка",
       "domestic": "Внутрішня доставка (BDO)",
+      "domesticNoBdo": "Внутрішня доставка",
       "shipment": "Відправлення"
     },
   "safetyRules": {

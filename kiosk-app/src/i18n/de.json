@@ -118,6 +118,7 @@
     "notificationTypes": {
       "foreign": "Ausländische Lieferung",
       "domestic": "Inländische Lieferung (BDO)",
+      "domesticNoBdo": "Inländische Lieferung",
       "shipment": "Sendung"
     },
   "safetyRules": {

@@ -69,6 +69,26 @@ const NotificationDetailsScreen = () => {
 
     useEffect(() => {
         if (notificationData?.cargoItems) {
+            if (notificationData.transportType === 'L') {
+                setWasteCodes({});
+                return;
+            }
+            const isDomestic = !notificationData.isForeign;
+            const allDeclaredWasteCodesEmpty =
+                isDomestic &&
+                notificationData.cargoItems.every(
+                    (item) =>
+                        item.declaredWasteCode === null ||
+                        item.declaredWasteCode === undefined ||
+                        item.declaredWasteCode === ''
+                );
+            if (allDeclaredWasteCodesEmpty) {
+                setWasteCodes({});
+                setWasteCodesError('');
+                setBdoError('');
+                setBdoCode('');
+                return;
+            }
             const initialWasteCodes: Record<string, string> = {};
             notificationData.cargoItems.forEach(item => {
                 if (item.declaredWasteCode) {
@@ -104,6 +124,16 @@ const NotificationDetailsScreen = () => {
         }
 
         const isShipment = notificationData.transportType === 'L';
+        const isDomestic = !isShipment && !notificationData.isForeign;
+        const allDeclaredWasteCodesEmpty =
+            isDomestic &&
+            notificationData.cargoItems.every(
+                (item) =>
+                    item.declaredWasteCode === null ||
+                    item.declaredWasteCode === undefined ||
+                    item.declaredWasteCode === ''
+            );
+        const hideBdoAndWasteUI = isDomestic && allDeclaredWasteCodesEmpty;
         const showSentOrBdo = !isShipment;
 
         if (showSentOrBdo) {
@@ -115,6 +145,9 @@ const NotificationDetailsScreen = () => {
                     setSentError('');
                 }
             } else {
+                if (hideBdoAndWasteUI) {
+                    setBdoError('');
+                } else
                 if (!bdoCode.trim()) {
                     setBdoError(t('validation.required'));
                     isValid = false;
@@ -124,17 +157,21 @@ const NotificationDetailsScreen = () => {
             }
         }
 
-        const missingWasteCodes: string[] = [];
-        notificationData.cargoItems.forEach(item => {
-            const wasteCode = wasteCodes[item.id.toString()] || '';
-            if (!wasteCode.trim()) {
-                missingWasteCodes.push(item.cargoName || `Pozycja ${item.id}`);
-            }
-        });
+        if (!isShipment && !hideBdoAndWasteUI) {
+            const missingWasteCodes: string[] = [];
+            notificationData.cargoItems.forEach(item => {
+                const wasteCode = wasteCodes[item.id.toString()] || '';
+                if (!wasteCode.trim()) {
+                    missingWasteCodes.push(item.cargoName || `Pozycja ${item.id}`);
+                }
+            });
 
-        if (missingWasteCodes.length > 0) {
-            setWasteCodesError(t('validation.required'));
-            isValid = false;
+            if (missingWasteCodes.length > 0) {
+                setWasteCodesError(t('validation.required'));
+                isValid = false;
+            } else {
+                setWasteCodesError('');
+            }
         } else {
             setWasteCodesError('');
         }
@@ -153,8 +190,18 @@ const NotificationDetailsScreen = () => {
         }
 
         const isShipment = notificationData.transportType === 'L';
+        const isDomestic = !isShipment && !notificationData.isForeign;
+        const allDeclaredWasteCodesEmpty =
+            isDomestic &&
+            notificationData.cargoItems.every(
+                (item) =>
+                    item.declaredWasteCode === null ||
+                    item.declaredWasteCode === undefined ||
+                    item.declaredWasteCode === ''
+            );
+        const hideBdoAndWasteUI = isDomestic && allDeclaredWasteCodesEmpty;
         const sentNo = isShipment ? '' : (notificationData.isForeign ? sentNumber : '');
-        const bdoCodeValue = isShipment ? '' : (notificationData.isForeign ? '' : bdoCode);
+        const bdoCodeValue = isShipment ? '' : (notificationData.isForeign ? '' : (hideBdoAndWasteUI ? '' : bdoCode));
         const driverDataConsistent = dataConsistency === 'consistent';
 
         const verifyBody = {
@@ -164,7 +211,9 @@ const NotificationDetailsScreen = () => {
             driverDataConsistent: driverDataConsistent,
             items: notificationData.cargoItems.map(item => ({
                 cargoItemId: item.id,
-                wasteCode: wasteCodes[item.id.toString()] || item.declaredWasteCode || ''
+                wasteCode: isShipment
+                    ? (item.declaredWasteCode || '')
+                    : (hideBdoAndWasteUI ? '' : (wasteCodes[item.id.toString()] || item.declaredWasteCode || ''))
             }))
         };
 
@@ -188,6 +237,16 @@ const NotificationDetailsScreen = () => {
     const renderCargoFields = () => {
         if (!notificationData) return null;
         const isShipment = notificationData.transportType === 'L';
+        const isDomestic = !isShipment && !notificationData.isForeign;
+        const allDeclaredWasteCodesEmpty =
+            isDomestic &&
+            notificationData.cargoItems.every(
+                (item) =>
+                    item.declaredWasteCode === null ||
+                    item.declaredWasteCode === undefined ||
+                    item.declaredWasteCode === ''
+            );
+        const hideBdoAndWasteUI = isDomestic && allDeclaredWasteCodesEmpty;
         const showSentOrBdo = !isShipment;
 
         return (
@@ -198,7 +257,9 @@ const NotificationDetailsScreen = () => {
                             <TableRow>
                                 <TableCell sx={{ fontWeight: 600 }}>Nazwa</TableCell>
                                 <TableCell sx={{ fontWeight: 600 }}>Waga (kg)</TableCell>
-                                <TableCell sx={{ fontWeight: 600 }}>{t('notificationDetails.wasteCode')}</TableCell>
+                                {!isShipment && !hideBdoAndWasteUI && (
+                                    <TableCell sx={{ fontWeight: 600 }}>{t('notificationDetails.wasteCode')}</TableCell>
+                                )}
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -206,36 +267,38 @@ const NotificationDetailsScreen = () => {
                                 <TableRow key={item.id}>
                                     <TableCell>{item.cargoName}</TableCell>
                                     <TableCell>{item.weight}</TableCell>
-                                    <TableCell>
-                                        <TextField
-                                            fullWidth
-                                            value={wasteCodes[item.id.toString()] || ''}
-                                            onChange={(e) => {
-                                                setWasteCodes({ ...wasteCodes, [item.id.toString()]: e.target.value });
-                                                if (wasteCodesError && e.target.value.trim()) {
-                                                    const allFilled = notificationData?.cargoItems.every(cargoItem => {
-                                                        const code = cargoItem.id === item.id 
-                                                            ? e.target.value 
-                                                            : wasteCodes[cargoItem.id.toString()] || '';
-                                                        return code.trim() !== '';
-                                                    });
-                                                    if (allFilled) {
-                                                        setWasteCodesError('');
+                                    {!isShipment && !hideBdoAndWasteUI && (
+                                        <TableCell>
+                                            <TextField
+                                                fullWidth
+                                                value={wasteCodes[item.id.toString()] || ''}
+                                                onChange={(e) => {
+                                                    setWasteCodes({ ...wasteCodes, [item.id.toString()]: e.target.value });
+                                                    if (wasteCodesError && e.target.value.trim()) {
+                                                        const allFilled = notificationData?.cargoItems.every(cargoItem => {
+                                                            const code = cargoItem.id === item.id
+                                                                ? e.target.value
+                                                                : wasteCodes[cargoItem.id.toString()] || '';
+                                                            return code.trim() !== '';
+                                                        });
+                                                        if (allFilled) {
+                                                            setWasteCodesError('');
+                                                        }
                                                     }
-                                                }
-                                            }}
-                                            size="small"
-                                            placeholder="Wprowadź kod odpadu..."
-                                            error={!!wasteCodesError}
-                                        />
-                                    </TableCell>
+                                                }}
+                                                size="small"
+                                                placeholder="Wprowadź kod odpadu..."
+                                                error={!!wasteCodesError}
+                                            />
+                                        </TableCell>
+                                    )}
                                 </TableRow>
                             ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
 
-                {showSentOrBdo && (
+                {showSentOrBdo && (!hideBdoAndWasteUI || notificationData.isForeign) && (
                     <Box sx={{ mt: 2 }}>
                         {notificationData.isForeign ? (
                             <TextField
@@ -302,6 +365,22 @@ const NotificationDetailsScreen = () => {
         );
     }
 
+    const isShipment = notificationData.transportType === 'L';
+    const isDomestic = !isShipment && !notificationData.isForeign;
+    const allDeclaredWasteCodesEmpty =
+        isDomestic &&
+        notificationData.cargoItems.every(
+            (item) =>
+                item.declaredWasteCode === null ||
+                item.declaredWasteCode === undefined ||
+                item.declaredWasteCode === ''
+        );
+    const hideBdoAndWasteUI = isDomestic && allDeclaredWasteCodesEmpty;
+    const notificationTypeKey =
+        notificationData.transportType === 'L'
+            ? 'shipment'
+            : (notificationData.isForeign ? 'foreign' : (hideBdoAndWasteUI ? 'domesticNoBdo' : 'domestic'));
+
     return (
         <Layout
             title={t('notificationDetails.title')}
@@ -314,10 +393,7 @@ const NotificationDetailsScreen = () => {
                             {notificationData.id}
                         </Typography>
                         <Chip
-                            label={t(`notificationTypes.${notificationData.transportType === 'L'
-                                    ? 'shipment'
-                                    : (notificationData.isForeign ? 'foreign' : 'domestic')
-                                }`)}
+                            label={t(`notificationTypes.${notificationTypeKey}`)}
                             color="primary"
                             size="medium"
                         />
@@ -418,7 +494,7 @@ const NotificationDetailsScreen = () => {
                         </FormControl>
                     </Paper>
 
-                    {wasteCodesError && (
+                    {!isShipment && !hideBdoAndWasteUI && wasteCodesError && (
                         <Alert severity="error">
                             {t('validation.required')} - {t('notificationDetails.wasteCode')}
                         </Alert>
