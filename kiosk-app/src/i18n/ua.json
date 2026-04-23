@@ -111,7 +111,7 @@
       "required": "Це поле є обов’язковим",
       "invalidFormat": "Неправильний формат",
       "invalidSENT": "Неправильний номер SENT",
-      "invalidBDO": "Неправильний код BDO",
+      "invalidBDO": "Неправильний код KPO",
       "invalidWasteCode": "Неправильний код відходів",
       "dataInconsistent": "Дані не відповідають системі SOOT"
     },

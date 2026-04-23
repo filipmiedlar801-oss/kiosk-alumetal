@@ -110,7 +110,7 @@
     "required": "To pole jest wymagane",
     "invalidFormat": "Nieprawidłowy format",
     "invalidSENT": "Nieprawidłowy numer SENT",
-    "invalidBDO": "Nieprawidłowy kod BDO",
+    "invalidBDO": "Nieprawidłowy kod KPO",
     "invalidWasteCode": "Nieprawidłowy kod odpadu",
     "dataInconsistent": "Dane niezgodne z systemem SOOT"
   },

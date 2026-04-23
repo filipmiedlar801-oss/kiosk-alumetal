@@ -112,7 +112,7 @@
     "required": "This field is required",
     "invalidFormat": "Invalid format",
     "invalidSENT": "Invalid SENT number",
-    "invalidBDO": "Invalid BDO code",
+    "invalidBDO": "Invalid KPO code",
     "invalidWasteCode": "Invalid waste code",
     "dataInconsistent": "Data inconsistent with SOOT system"
   },

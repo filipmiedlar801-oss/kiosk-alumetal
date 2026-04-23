@@ -111,7 +111,7 @@
       "required": "Dieses Feld ist erforderlich",
       "invalidFormat": "Ungültiges Format",
       "invalidSENT": "Ungültige SENT-Nummer",
-      "invalidBDO": "Ungültiger BDO-Code",
+      "invalidBDO": "Ungültiger KPO-Code",
       "invalidWasteCode": "Ungültiger Abfallcode",
       "dataInconsistent": "Daten stimmen nicht mit dem SOOT-System überein"
     },
